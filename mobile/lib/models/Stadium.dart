@@ -13,7 +13,8 @@ class Stadium {
       this.description,
       this.rating,
       this.price,
-      this.positions});
+      this.positions,
+      this.picPath});
 
   Stadium.fromJson(Map<String, dynamic> json) {
     id = json['_id'];

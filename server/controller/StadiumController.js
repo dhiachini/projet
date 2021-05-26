@@ -22,7 +22,7 @@ exports.getStadiumDetails = async (req, res) => {
 
 exports.getAllStadiums = async (req, res) => {
     const docs = await Stadium.find({});
-    console.log(docs);
+    console.log("Docs has been returned : " + docs.length);
     return res.status(200).json({ success: true, data: docs });
 }
 

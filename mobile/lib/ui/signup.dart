@@ -174,7 +174,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           cursorColor: Colors.tealAccent,
           decoration: InputDecoration(
             prefixIcon:
-                Icon(Icons.near_me_rounded, color: Colors.tealAccent, size: 20),
+                Icon(Icons.assignment_ind, color: Colors.tealAccent, size: 20),
             hintText: "First name",
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
@@ -192,8 +192,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
           keyboardType: TextInputType.name,
           cursorColor: Colors.tealAccent,
           decoration: InputDecoration(
-            prefixIcon:
-                Icon(Icons.ac_unit_sharp, color: Colors.tealAccent, size: 20),
+            prefixIcon: Icon(Icons.assignment_ind_outlined,
+                color: Colors.tealAccent, size: 20),
             hintText: "First name",
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
@@ -211,8 +211,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           keyboardType: TextInputType.name,
           cursorColor: Colors.tealAccent,
           decoration: InputDecoration(
-            prefixIcon:
-                Icon(Icons.ac_unit_sharp, color: Colors.tealAccent, size: 20),
+            prefixIcon: Icon(Icons.mail, color: Colors.tealAccent, size: 20),
             hintText: "Email ",
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
@@ -230,8 +229,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           keyboardType: TextInputType.name,
           cursorColor: Colors.tealAccent,
           decoration: InputDecoration(
-            prefixIcon:
-                Icon(Icons.ac_unit_sharp, color: Colors.tealAccent, size: 20),
+            prefixIcon: Icon(Icons.phone, color: Colors.tealAccent, size: 20),
             hintText: "Phone",
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
@@ -249,8 +247,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           keyboardType: TextInputType.name,
           cursorColor: Colors.tealAccent,
           decoration: InputDecoration(
-            prefixIcon:
-                Icon(Icons.ac_unit_sharp, color: Colors.tealAccent, size: 20),
+            prefixIcon: Icon(Icons.lock, color: Colors.tealAccent, size: 20),
             hintText: "Password",
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),

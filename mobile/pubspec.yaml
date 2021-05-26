@@ -32,12 +32,11 @@ dependencies:
   google_sign_in:
   camera:
   validate:
-  flutter_facebook_login:
   http:
   shared_preferences:
   flutter_map:
   flutter_rating_bar:
-  geolocator: 
+  geolocator: ^6.1.13
   font_awesome_flutter: ^8.8.1
   smooth_star_rating: ^1.1.1
   

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pfe/constants/theme.dart';
-import 'package:pfe/models/Hotel.dart';
 import 'package:pfe/models/Stadium.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+
+import '../details.dart';
 
 class HotelListView extends StatelessWidget {
   const HotelListView(
@@ -35,7 +36,13 @@ class HotelListView extends StatelessWidget {
               child: InkWell(
                 splashColor: Colors.transparent,
                 onTap: () {
-                  callback();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Details(
+                              idStadium: hotelData.id,
+                            )),
+                  );
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -56,7 +63,7 @@ class HotelListView extends StatelessWidget {
                           children: <Widget>[
                             AspectRatio(
                               aspectRatio: 2,
-                              child: Image.asset(
+                              child: Image.network(
                                 hotelData.picPath,
                                 fit: BoxFit.cover,
                               ),

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import "package:latlong/latlong.dart";
@@ -15,17 +16,15 @@ class Maps extends StatefulWidget {
 class _MapsState extends State<Maps> {
   Position _position;
   List<Marker> markers = [];
+  bool isLoading = true;
+  Marker initMarker;
 
-  void _determinePosition() async {
+  Future<Position> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Test if location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // Location services are not enabled don't continue
-      // accessing the position and request users of the
-      // App to enable the location services.
       return Future.error('Location services are disabled.');
     }
 
@@ -33,61 +32,66 @@ class _MapsState extends State<Maps> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
         return Future.error('Location permissions are denied');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
     _position = await Geolocator.getCurrentPosition();
+    Marker(point: LatLng(_position.latitude, _position.altitude));
+    return _position;
   }
 
   void getLocation() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.medium,
-        forceAndroidLocationManager: true,
-        timeLimit: Duration(seconds: 10));
-    print(position);
-    setState(() {
-      _position = position;
-    });
+    if (await Geolocator.isLocationServiceEnabled()) {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      ).timeout(Duration(seconds: 10));
+      print(position);
+      setState(() {
+        _position = position;
+      });
+    }
   }
 
   @override
   void initState() {
-    getAllMarkers();
-    getLocation();
+    //getAllMarkers();
+    //getLocation();
+
     _determinePosition();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FlutterMap(
-      options: MapOptions(
-        center: LatLng(35.825603, 10.608395),
-        zoom: 12.0,
-      ),
-      nonRotatedLayers: [
-        TileLayerOptions(
-            urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            subdomains: ['a', 'b', 'c']),
-        MarkerLayerOptions(
-          markers: markers,
-        ),
-      ],
-    );
+    return FutureBuilder(
+        future: _determinePosition(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return FlutterMap(
+              options: MapOptions(
+                center: LatLng(_position.latitude, _position.longitude),
+                zoom: 16.0,
+              ),
+              nonRotatedLayers: [
+                TileLayerOptions(
+                    urlTemplate:
+                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    subdomains: ['a', 'b', 'c']),
+                MarkerLayerOptions(
+                  markers: markers,
+                ),
+              ],
+            );
+          } else {
+            Center(child: CircularProgressIndicator());
+          }
+        });
   }
 
   Future<void> getAllMarkers() async {

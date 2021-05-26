@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:pfe/constants/theme.dart';
 import 'package:pfe/models/Hotel.dart';
 import 'package:http/http.dart' as http;
+import 'package:pfe/models/Stadium.dart';
 import 'package:pfe/ui/widgets/calendar.dart';
 import 'package:pfe/ui/widgets/hotelListViewer.dart';
 
@@ -22,36 +24,30 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
 
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now().add(const Duration(days: 5));
-  List<dynamic> stadiums;
-  bool _loading = true;
+  List<Stadium> stadiums = [];
   @override
   void initState() {
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
 
     super.initState();
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      print(_loading);
-      setState(() {
-        _loading = false;
-      });
-      print(_loading);
-    });
   }
 
-  Future<bool> getStadiums() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
+  Future<List<Stadium>> getStadiums() async {
     var response =
         await http.get(Uri.parse("http://10.0.2.2:3000/api/stadium/all"));
     var listGenerate = jsonDecode(response.body);
-    setState(() {
-      stadiums = listGenerate;
-    });
-    return true;
-  }
-
-  Future<bool> getData() async {
-    return true;
+    var l = listGenerate['data'];
+    for (int i = 0; i < l.length; i++) {
+      stadiums.add(Stadium(
+          picPath: l[i]['picPath'],
+          id: l[i]['id'],
+          description: l[i]['description'].substring(0, 20) + "...",
+          name: l[i]['name'],
+          price: l[i]['price'],
+          rating: l[i]['rating']));
+    }
+    return stadiums;
   }
 
   @override
@@ -63,85 +59,108 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: HotelAppTheme.buildLightTheme(),
-      child: Container(
-        child: Scaffold(
-          body: Stack(
-            children: <Widget>[
-              InkWell(
-                splashColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                onTap: () {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                },
-                child: Column(
-                  children: <Widget>[
-                    getAppBarUI(),
-                    Expanded(
-                      child: NestedScrollView(
-                        controller: _scrollController,
-                        headerSliverBuilder:
-                            (BuildContext context, bool innerBoxIsScrolled) {
-                          return <Widget>[
-                            SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                  (BuildContext context, int index) {
-                                return Column(
-                                  children: <Widget>[
-                                    getSearchBarUI(),
-                                    getTimeDateUI(),
-                                  ],
-                                );
-                              }, childCount: 1),
-                            ),
-                            SliverPersistentHeader(
-                              pinned: true,
-                              floating: true,
-                              delegate: ContestTabHeader(
-                                getFilterBarUI(),
-                              ),
-                            ),
-                          ];
-                        },
-                        body: Container(
-                          color:
-                              HotelAppTheme.buildLightTheme().backgroundColor,
-                          child: ListView.builder(
-                            itemCount: stadiums.length,
-                            padding: const EdgeInsets.only(top: 8),
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (BuildContext context, int index) {
-                              final int count =
-                                  stadiums.length > 10 ? 10 : stadiums.length;
-                              final Animation<double> animation =
-                                  Tween<double>(begin: 0.0, end: 1.0).animate(
-                                      CurvedAnimation(
-                                          parent: animationController,
-                                          curve: Interval(
-                                              (1 / count) * index, 1.0,
-                                              curve: Curves.fastOutSlowIn)));
-                              animationController.forward();
-                              return HotelListView(
-                                callback: () {},
-                                hotelData: stadiums[index],
-                                animation: animation,
-                                animationController: animationController,
-                              );
-                            },
+        data: HotelAppTheme.buildLightTheme(),
+        child: FutureBuilder(
+            future: getStadiums(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Container(
+                  child: Scaffold(
+                    body: Stack(
+                      children: <Widget>[
+                        InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          onTap: () {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                          },
+                          child: Column(
+                            children: <Widget>[
+                              getAppBarUI(),
+                              Expanded(
+                                child: NestedScrollView(
+                                  controller: _scrollController,
+                                  headerSliverBuilder: (BuildContext context,
+                                      bool innerBoxIsScrolled) {
+                                    return <Widget>[
+                                      SliverList(
+                                        delegate: SliverChildBuilderDelegate(
+                                            (BuildContext context, int index) {
+                                          return Column(
+                                            children: <Widget>[
+                                              getSearchBarUI(),
+                                              getTimeDateUI(),
+                                            ],
+                                          );
+                                        }, childCount: 1),
+                                      ),
+                                      SliverPersistentHeader(
+                                        pinned: true,
+                                        floating: true,
+                                        delegate: ContestTabHeader(
+                                          getFilterBarUI(),
+                                        ),
+                                      ),
+                                    ];
+                                  },
+                                  body: Container(
+                                    color: HotelAppTheme.buildLightTheme()
+                                        .backgroundColor,
+                                    child: ListView.builder(
+                                      itemCount: stadiums.length,
+                                      padding: const EdgeInsets.only(top: 8),
+                                      scrollDirection: Axis.vertical,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        final int count = stadiums.length > 10
+                                            ? 10
+                                            : stadiums.length;
+                                        final Animation<double> animation =
+                                            Tween<double>(begin: 0.0, end: 1.0)
+                                                .animate(CurvedAnimation(
+                                                    parent: animationController,
+                                                    curve: Interval(
+                                                        (1 / count) * index,
+                                                        1.0,
+                                                        curve: Curves
+                                                            .fastOutSlowIn)));
+                                        animationController.forward();
+                                        return HotelListView(
+                                          callback: () {},
+                                          hotelData: stadiums[index],
+                                          animation: animation,
+                                          animationController:
+                                              animationController,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ),
+                      ],
+                    ),
+                  ),
+                );
+              } else {
+                return Container(
+                    color: Colors.white,
+                    child: Center(
+                        child: Column(children: <Widget>[
+                      CupertinoActivityIndicator(
+                        radius: 40,
                       ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Text('Loading...'),
+                      )
+                    ])));
+              }
+            }));
   }
 
   Widget getListUI() {
@@ -159,9 +178,9 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
         children: <Widget>[
           Container(
             height: MediaQuery.of(context).size.height - 156 - 50,
-            child: FutureBuilder<bool>(
+            child: FutureBuilder<List<Stadium>>(
               future: getStadiums(),
-              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const SizedBox();
                 } else {

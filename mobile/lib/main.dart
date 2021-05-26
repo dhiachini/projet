@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pfe/constants/constants.dart';
+import 'package:pfe/ui/landing.dart';
+import 'package:pfe/ui/maps.dart';
 import 'package:pfe/ui/signin.dart';
 import 'package:pfe/ui/signup.dart';
 import 'package:pfe/ui/splashscreen.dart';
@@ -22,6 +24,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: "PFE",
         theme: ThemeData(primaryColor: Colors.orange[200]),
-        home: SignInScreen());
+        home: HotelHomeScreen());
   }
 }

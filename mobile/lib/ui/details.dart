@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
+import 'package:pfe/models/Stadium.dart';
 
 class Details extends StatefulWidget {
   String idStadium;
@@ -14,10 +14,9 @@ class Details extends StatefulWidget {
 }
 
 class _DetailsState extends State<Details> {
-  var stadium;
-  String id = "";
-  Double rate;
-  Future<void> getStadiumDetails() async {
+  Stadium stadium;
+  double rate;
+  Future<void> getStadiumDetails(String id) async {
     String url = "http://10.0.2.2:3000/api/stadium/$id";
     var response = await http.get(Uri.parse(url));
     setState(() {
@@ -28,12 +27,7 @@ class _DetailsState extends State<Details> {
   @override
   void initState() {
     super.initState();
-
-    id = this.widget.idStadium;
-    getStadiumDetails();
-
-    print("Stadium to String");
-    print(stadium.toString());
+    getStadiumDetails(this.widget.idStadium);
   }
 
   @override
@@ -56,7 +50,7 @@ class _DetailsState extends State<Details> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
-                    '${stadium["stadium"][0]["name"]}',
+                    '${stadium.name}',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 28.0,
