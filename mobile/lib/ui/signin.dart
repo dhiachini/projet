@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:pfe/constants/constants.dart';
-import 'package:pfe/ui/maps.dart';
 import 'package:pfe/ui/signup.dart';
 import 'package:pfe/ui/widgets/custom_shape.dart';
 import 'package:pfe/ui/widgets/responsive_ui.dart';
@@ -189,23 +187,33 @@ class _SignInScreenState extends State<SignInScreen> {
         ));
   }
 
+  bool _isObscure = true;
   Widget passwordTextFormField() {
     return Material(
-        borderRadius: BorderRadius.circular(30.0),
-        elevation: 10,
-        child: TextFormField(
-          autofocus: true,
-          controller: passwordController,
-          keyboardType: TextInputType.name,
-          cursorColor: Colors.orange[200],
-          decoration: InputDecoration(
+      borderRadius: BorderRadius.circular(30.0),
+      elevation: 10,
+      child: TextFormField(
+        autofocus: true,
+        controller: passwordController,
+        keyboardType: TextInputType.name,
+        cursorColor: Colors.orange[200],
+        obscureText: _isObscure,
+        decoration: InputDecoration(
             prefixIcon: Icon(Icons.lock, color: Colors.tealAccent, size: 20),
             hintText: "Password",
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
                 borderSide: BorderSide.none),
-          ),
-        ));
+            suffixIcon: IconButton(
+                icon:
+                    Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
+                onPressed: () {
+                  setState(() {
+                    _isObscure = !_isObscure;
+                  });
+                })),
+      ),
+    );
   }
 
   Widget forgetPassTextRow() {

@@ -8,8 +8,12 @@ import 'package:pfe/constants/theme.dart';
 import 'package:pfe/models/Hotel.dart';
 import 'package:http/http.dart' as http;
 import 'package:pfe/models/Stadium.dart';
+import 'package:pfe/ui/maps.dart';
 import 'package:pfe/ui/widgets/calendar.dart';
 import 'package:pfe/ui/widgets/hotelListViewer.dart';
+import 'package:pfe/ui/widgets/profile.dart';
+
+import '../main.dart';
 
 class HotelHomeScreen extends StatefulWidget {
   @override
@@ -38,14 +42,9 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
         await http.get(Uri.parse("http://10.0.2.2:3000/api/stadium/all"));
     var listGenerate = jsonDecode(response.body);
     var l = listGenerate['data'];
+
     for (int i = 0; i < l.length; i++) {
-      stadiums.add(Stadium(
-          picPath: l[i]['picPath'],
-          id: l[i]['id'],
-          description: l[i]['description'].substring(0, 20) + "...",
-          name: l[i]['name'],
-          price: l[i]['price'],
-          rating: l[i]['rating']));
+      stadiums.add(Stadium.fromJson(l[i]));
     }
     return stadiums;
   }
@@ -62,6 +61,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
         data: HotelAppTheme.buildLightTheme(),
         child: FutureBuilder(
             future: getStadiums(),
+            // ignore: missing_return
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Container(
@@ -146,6 +146,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                     ),
                   ),
                 );
+              } else if (snapshot.hasError) {
               } else {
                 return Container(
                     color: Colors.white,
@@ -330,7 +331,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Number of Rooms',
+                            'Reserve random',
                             style: TextStyle(
                                 fontWeight: FontWeight.w100,
                                 fontSize: 16,
@@ -340,7 +341,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                             height: 8,
                           ),
                           Text(
-                            '1 Room - 2 Adults',
+                            '1 Room - 2 players',
                             style: TextStyle(
                               fontWeight: FontWeight.w100,
                               fontSize: 16,
@@ -391,7 +392,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                     cursorColor: HotelAppTheme.buildLightTheme().primaryColor,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'London...',
+                      hintText: 'Search your stadium...',
                     ),
                   ),
                 ),
@@ -613,10 +614,15 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                       borderRadius: const BorderRadius.all(
                         Radius.circular(32.0),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProfileThreePage()));
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Icon(Icons.favorite_border),
+                        child: Icon(Icons.account_circle_outlined),
                       ),
                     ),
                   ),
@@ -626,7 +632,10 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                       borderRadius: const BorderRadius.all(
                         Radius.circular(32.0),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Maps()));
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Icon(FontAwesomeIcons.mapMarkerAlt),

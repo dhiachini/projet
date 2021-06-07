@@ -101,7 +101,9 @@ class HotelListView extends StatelessWidget {
                                                   MainAxisAlignment.start,
                                               children: <Widget>[
                                                 Text(
-                                                  hotelData.description,
+                                                  hotelData.description
+                                                          .substring(0, 25) +
+                                                      "...",
                                                   style: TextStyle(
                                                       fontSize: 14,
                                                       color: Colors.grey
@@ -172,7 +174,7 @@ class HotelListView extends StatelessWidget {
                                           CrossAxisAlignment.end,
                                       children: <Widget>[
                                         Text(
-                                          '\$${hotelData.price}',
+                                          '\DT ${hotelData.price}',
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
@@ -180,7 +182,7 @@ class HotelListView extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          '/per night',
+                                          '/per groupe',
                                           style: TextStyle(
                                               fontSize: 14,
                                               color:

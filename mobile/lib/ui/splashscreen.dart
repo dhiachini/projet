@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pfe/constants/constants.dart';
+import 'package:pfe/ui/signin.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -18,11 +18,12 @@ class SplashScreenState extends State<SplashScreen>
 
   startTime() async {
     var _duration = new Duration(seconds: 3);
-    return new Timer(_duration, navigationPage);
+    return new Timer(_duration, _navigateToHome);
   }
 
-  void navigationPage() {
-    Navigator.of(context).pushReplacementNamed(SIGN_IN);
+  void _navigateToHome() {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (BuildContext context) => SignInPage()));
   }
 
   @override

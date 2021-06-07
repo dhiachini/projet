@@ -16,8 +16,6 @@ class Maps extends StatefulWidget {
 class _MapsState extends State<Maps> {
   Position _position;
   List<Marker> markers = [];
-  bool isLoading = true;
-  Marker initMarker;
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -41,9 +39,7 @@ class _MapsState extends State<Maps> {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    _position = await Geolocator.getCurrentPosition();
-    Marker(point: LatLng(_position.latitude, _position.altitude));
-    return _position;
+    return await Geolocator.getCurrentPosition();
   }
 
   void getLocation() async {
@@ -58,12 +54,19 @@ class _MapsState extends State<Maps> {
     }
   }
 
+  calculateDistance() {
+    return Geolocator.distanceBetween(_position.altitude, _position.longitude,
+        _position.altitude + 0.026578, _position.longitude + 0.654894);
+  }
+
   @override
   void initState() {
     //getAllMarkers();
     //getLocation();
 
     _determinePosition();
+
+    print('YAAAAAAAAAAAAAAAAAAAAAAA}');
     super.initState();
   }
 
@@ -75,7 +78,7 @@ class _MapsState extends State<Maps> {
           if (snapshot.hasData) {
             return FlutterMap(
               options: MapOptions(
-                center: LatLng(_position.latitude, _position.longitude),
+                center: LatLng(snapshot.data.latitude, snapshot.data.longitude),
                 zoom: 16.0,
               ),
               nonRotatedLayers: [
@@ -83,13 +86,22 @@ class _MapsState extends State<Maps> {
                     urlTemplate:
                         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                     subdomains: ['a', 'b', 'c']),
-                MarkerLayerOptions(
-                  markers: markers,
-                ),
+                MarkerLayerOptions(markers: [
+                  Marker(
+                      width: 30.0,
+                      height: 30.0,
+                      point: LatLng(
+                          snapshot.data.latitude, snapshot.data.longitude),
+                      builder: (ctx) => Container(
+                            child: GestureDetector(
+                              child: Image.asset("assets/icons/marker.png"),
+                            ),
+                          )),
+                ]),
               ],
             );
           } else {
-            Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
           }
         });
   }
@@ -99,7 +111,6 @@ class _MapsState extends State<Maps> {
     var response = await http.get(Uri.parse(url));
     var stadiums = json.decode(response.body);
     stadiums['data'].map((dynamic stadium) {
-      print(stadium['_id']);
       markers.add(Marker(
           width: 30.0,
           height: 30.0,

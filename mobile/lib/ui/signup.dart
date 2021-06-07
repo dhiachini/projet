@@ -111,33 +111,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
           child: Image.asset("assets/icons/register.png"),
           // child: GestureDetector(
-          //     onTap: () {
-          //       print('Adding photo');
-          //     },
-          //     child: Icon(
-          //       Icons.add_a_photo,
-          //       size: _large ? 40 : (_medium ? 33 : 31),
-          //       color: Colors.tealAccent[700],
+          //   onTap: () {
+          //     print('Adding photo');
+          // },
+          //child: Icon(
+          //Icons.add_a_photo,
+          //size: _large ? 40 : (_medium ? 33 : 31),
+          //color: Colors.tealAccent[700],
           //)),
         ),
-//        Positioned(
-//          top: _height/8,
-//          left: _width/1.75,
-//          child: Container(
-//            alignment: Alignment.center,
-//            height: _height/23,
-//            padding: EdgeInsets.all(5),
-//            decoration: BoxDecoration(
-//              shape: BoxShape.circle,
-//              color:  Colors.tealAccent[600],
-//            ),
-//            child: GestureDetector(
-//                onTap: (){
-//                  print('Adding photo');
-//                },
-//                child: Icon(Icons.add_a_photo, size: _large? 22: (_medium? 15: 13),)),
-//          ),
-//        ),
+        Positioned(
+          top: _height / 8,
+          left: _width / 1.75,
+          child: Container(
+            alignment: Alignment.center,
+            height: _height / 23,
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.tealAccent[600],
+            ),
+            child: GestureDetector(
+                onTap: () {
+                  print('Adding photo');
+                },
+                child: Icon(
+                  Icons.add_a_photo,
+                  size: _large ? 22 : (_medium ? 15 : 13),
+                )),
+          ),
+        ),
       ],
     );
   }

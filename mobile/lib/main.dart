@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pfe/constants/constants.dart';
-import 'package:pfe/ui/landing.dart';
-import 'package:pfe/ui/maps.dart';
-import 'package:pfe/ui/signin.dart';
-import 'package:pfe/ui/signup.dart';
 import 'package:pfe/ui/splashscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  // ignore: invalid_use_of_visible_for_testing_member
   SharedPreferences.setMockInitialValues({});
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  get prefixIcon => null;
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -22,8 +20,8 @@ class MyApp extends StatelessWidget {
     ]);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: "PFE",
-        theme: ThemeData(primaryColor: Colors.orange[200]),
-        home: HotelHomeScreen());
+        title: "OVictoire",
+        theme: ThemeData(primaryColor: Colors.orange[900]),
+        home: SplashScreen());
   }
 }
