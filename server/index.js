@@ -5,16 +5,18 @@ const port = process.env.PORT;
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(cors());
 app.listen(port, () => {
     console.log(`Server running at here ${port}`);
 });
 const { auth } = require('./middleware/auth')
-const { RegisterUser, LoginUser, LogoutUser, getUserDetails } = require('./controller/AuthController');
+const { RegisterUser, LoginUser, LogoutUser, getUserDetails, GetUseInfo } = require('./controller/AuthController');
 const { GetStadiumLocation, SaveStadium, getAllStadiums, getStadiumDetails } = require('./controller/StadiumController');
 
 app.post('/api/users/register', RegisterUser);
@@ -26,3 +28,4 @@ app.get('/api/stadium/location', auth, GetStadiumLocation);
 app.post('/api/stadium/save', SaveStadium);
 app.get('/api/stadium/all', getAllStadiums);
 app.get('/api/stadium/:id', getStadiumDetails)
+app.get('/api/users/getinfo', GetUseInfo)

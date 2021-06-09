@@ -103,7 +103,7 @@ class ProfileThreePage extends StatelessWidget {
                         Divider(),
                         ListTile(
                           title: Text("Email"),
-                          subtitle: Text("butterfly.little@gmail.com"),
+                          subtitle: Text("chinidhia@gmail.com"),
                           leading: Icon(Icons.email),
                         ),
                         ListTile(

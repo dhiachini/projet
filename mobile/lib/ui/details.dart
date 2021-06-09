@@ -9,6 +9,8 @@ import 'package:pfe/models/Stadium.dart';
 import "package:latlong/latlong.dart";
 import 'package:pfe/ui/verify.dart';
 
+import 'catalogue.dart';
+
 // ignore: must_be_immutable
 class Details extends StatefulWidget {
   String idStadium;
@@ -100,8 +102,14 @@ class _DetailsState extends State<Details> {
                             Spacer(),
                             IconButton(
                               color: Colors.white,
-                              icon: Icon(Icons.favorite_border),
-                              onPressed: () {},
+                              icon: Icon(Icons.add_shopping_cart),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            CatalogueScreen()));
+                              },
                             )
                           ],
                         ),

@@ -12,11 +12,12 @@ exports.GetStadiumLocation = (req, res) => {
 }
 
 exports.getStadiumDetails = async (req, res) => {
+    console.log(req.params.id);
     const stadiumDetail = await Stadium.find({ _id: req.params.id });
-    console.log(stadiumDetail);
+    console.log(stadiumDetail[0]);
     return res.status(200).json({
         success: true,
-        stadium: stadiumDetail
+        stadium: stadiumDetail[0]
     });
 }
 
