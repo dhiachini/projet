@@ -20,4 +20,16 @@ class Service {
     var json = jsonDecode(response.body);
     return User.fromJson(json);
   }
+
+  reserveStadium(String dateTime) async {
+    var response = await http.post(Uri.parse(url + 'stadium/reserve'), body: {
+      'uid': '6062042541ca10181a38ae35',
+      'sid': '60aba6892437f4fb2855b321',
+      'reservationDate': dateTime
+    });
+    print(response);
+    var json = jsonDecode(response.body);
+
+    return json;
+  }
 }

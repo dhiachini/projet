@@ -4,7 +4,7 @@ import 'package:pfe/constants/theme.dart';
 import 'package:pfe/models/Stadium.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
-import '../details.dart';
+import '../screens/details.dart';
 
 class HotelListView extends StatelessWidget {
   const HotelListView(
