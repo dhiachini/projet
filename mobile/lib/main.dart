@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pfe/ui/screens/landing.dart';
+import 'package:pfe/ui/screens/signin.dart';
 import 'package:pfe/ui/screens/splashscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,6 +17,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: "OVictoire",
         theme: ThemeData(primaryColor: Colors.orange[900]),
-        home: LandingScreen());
+        home: SignInPage());
   }
 }

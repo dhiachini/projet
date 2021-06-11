@@ -16,6 +16,74 @@
     <!-- Custom CSS -->
     <link href="css/helper.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <style>
+        /* Style all input fields */
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+        }
+
+        /* Style the submit button */
+        input[type=submit] {
+            background-color: #04AA6D;
+            color: white;
+        }
+
+        /* Style the container for inputs */
+        .container {
+            padding: 20px;
+        }
+
+        /* The message box is shown when the user clicks on the password field */
+        #message {
+            display: none;
+            color: #000;
+            position: relative;
+            padding: 20px;
+            margin-top: 10px;
+        }
+
+        #message p {
+            padding: 10px 35px;
+            font-size: 18px;
+        }
+
+        /* Add a green text color and a checkmark when the requirements are right */
+        .valid {
+            color: rgb(0, 207, 145);
+        }
+
+        .valid:before {
+            position: relative;
+            left: -35px;
+            content: "✔";
+        }
+
+        /* Add a red text color and an "x" when the requirements are wrong */
+        .invalid {
+            color: red;
+        }
+
+        .invalid:before {
+            position: relative;
+            left: -35px;
+            content: "✖";
+        }
+
+        .visible {
+            display: block;
+            color: rgb(212, 66, 66);
+        }
+
+        .invisible {
+            display: none;
+        }
+    </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:** -->
     <!--[if lt IE 9]>
@@ -28,7 +96,8 @@
     <!-- Preloader - style you can find in spinners.css -->
     <div class="preloader">
         <svg class="circular" viewBox="25 25 50 50">
-			<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
     </div>
     <!-- Main wrapper  -->
     <div id="main-wrapper">
@@ -40,29 +109,46 @@
                         <div class="login-content card">
                             <div class="login-form">
                                 <h4>Register</h4>
-                                <form>
-                                    <div class="form-group">
-                                        <label>User Name</label>
-                                        <input type="email" class="form-control" placeholder="User Name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Email address</label>
-                                        <input type="email" class="form-control" placeholder="Email">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Password</label>
-                                        <input type="password" class="form-control" placeholder="Password">
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-										<input type="checkbox"> Agree the terms and policy
-									</label>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">Register</button>
-                                    <div class="register-link m-t-15 text-center">
-                                        <p>Already have account ? <a href="#"> Sign in</a></p>
-                                    </div>
-                                </form>
+                                <div class="" id="wrong-pass"></div>
+                                <div class="" id="message">
+                                    <h3>Password must contain the following:</h3>
+                                    <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                                    <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                                    <p id="number" class="invalid">A <b>number</b></p>
+                                    <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                                </div>
+                                <span id="wrong-pass"></span>
+                                <div class="form-group">
+                                    <label>User name</label>
+                                    <input type="email" id="username" class="form-control" placeholder="User Name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email address</label>
+                                    <input type="email" id="email" class="form-control" placeholder="Email">
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" id="password" class="form-control" placeholder="Password">
+                                </div>
+                                <div class="form-group">
+                                    <label>Confirm password</label>
+                                    <input type="password" id="cpass" class="form-control" placeholder="Password">
+                                </div>
+                                <div class="form-group">
+                                    <label>Number phone</label>
+                                    <input type="password" id="phonenumber" class="form-control" placeholder="Password">
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="agree"> Agree the terms and policy
+                                    </label>
+                                </div>
+                                <button type="submit" id="register"
+                                    class="btn btn-primary btn-flat m-b-30 m-t-30">Register</button>
+                                <div class="register-link m-t-15 text-center">
+                                    <p>Already have account ? <a href="#"> Sign in</a></p>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -85,6 +171,7 @@
     <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
     <!--Custom JavaScript -->
     <script src="js/custom.min.js"></script>
+    <script src="js/register.js"></script>
 
 </body>
 

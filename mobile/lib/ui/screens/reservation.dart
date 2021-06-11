@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pfe/network/Service.dart';
-import 'package:pfe/ui/screens/signin.dart';
-
 import 'details.dart';
+import 'landing.dart';
 
 class BookingScreen extends StatefulWidget {
   final String doctor;
@@ -84,7 +82,7 @@ class _BookingScreenState extends State<BookingScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => Details(),
+            builder: (context) => LandingScreen(),
           ),
         );
       },
@@ -119,198 +117,211 @@ class _BookingScreenState extends State<BookingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      key: _scaffoldKey,
-      appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 0,
-        title: Text(
-          'Appointment booking',
+        key: _scaffoldKey,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          title: Text(
+            'Appointment booking',
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
         ),
-        iconTheme: IconThemeData(
-          color: Colors.black,
-        ),
-      ),
-      body: SafeArea(
-        child: ListView(
-          shrinkWrap: true,
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            Form(
-              key: _formKey,
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                padding: EdgeInsets.only(top: 0),
-                child: Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      height: 60,
-                      width: MediaQuery.of(context).size.width,
-                      child: Stack(
-                        alignment: Alignment.centerRight,
-                        children: [
-                          TextFormField(
-                            focusNode: f4,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(
-                                left: 20,
-                                top: 10,
-                                bottom: 10,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(90.0)),
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
-                              fillColor: Colors.grey[350],
-                              hintText: 'Select Date*',
-                            ),
-                            controller: _dateController,
-                            validator: (value) {
-                              if (value.isEmpty) return 'Please Enter the Date';
-                              return null;
-                            },
-                            onFieldSubmitted: (String value) {
-                              f4.unfocus();
-                              FocusScope.of(context).requestFocus(f5);
-                            },
-                            textInputAction: TextInputAction.next,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 5.0),
-                            child: ClipOval(
-                              child: Material(
-                                color: Colors.indigo, // button color
-                                child: InkWell(
-                                  // inkwell color
-                                  child: SizedBox(
-                                    width: 40,
-                                    height: 40,
-                                    child: Icon(
-                                      Icons.date_range_outlined,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    selectDate(context);
-                                  },
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      height: 60,
-                      width: MediaQuery.of(context).size.width,
-                      child: Stack(
-                        alignment: Alignment.centerRight,
-                        children: [
-                          TextFormField(
-                            focusNode: f5,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(
-                                left: 20,
-                                top: 10,
-                                bottom: 10,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(90.0)),
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
-                              fillColor: Colors.grey[350],
-                              hintText: 'Select Time*',
-                            ),
-                            controller: _timeController,
-                            validator: (value) {
-                              if (value.isEmpty) return 'Please Enter the Time';
-                              return null;
-                            },
-                            onFieldSubmitted: (String value) {
-                              f5.unfocus();
-                            },
-                            textInputAction: TextInputAction.next,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 5.0),
-                            child: ClipOval(
-                              child: Material(
-                                color: Colors.indigo, // button color
-                                child: InkWell(
-                                  // inkwell color
-                                  child: SizedBox(
-                                    width: 40,
-                                    height: 40,
-                                    child: Icon(
-                                      Icons.timer_outlined,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    selectTime(context);
-                                  },
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 2,
-                          primary: Colors.indigo,
-                          onPrimary: Colors.black,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(32.0),
-                          ),
-                        ),
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            print(_nameController.text);
-                            print(_dateController.text);
-                            print(_timeController.text);
-                            showAlertDialog(context);
-                            var fullTime = _dateController.text +
-                                ' ' +
-                                _timeController.text;
-                            var response =
-                                await Service().reserveStadium(fullTime);
-                            print(response);
-                          }
-                        },
-                        child: Text(
-                          "Book Appointment",
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                  ],
-                ),
+        body: SafeArea(
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                    'https://i.pinimg.com/564x/98/58/c5/9858c5e9572784de169975273f3dfdbb.jpg'),
+                fit: BoxFit.cover,
               ),
             ),
-          ],
-        ),
-      ),
-    );
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                Form(
+                  key: _formKey,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.only(top: 0),
+                    child: Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          height: 60,
+                          width: MediaQuery.of(context).size.width,
+                          child: Stack(
+                            alignment: Alignment.centerRight,
+                            children: [
+                              TextFormField(
+                                focusNode: f4,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(
+                                    left: 20,
+                                    top: 10,
+                                    bottom: 10,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(90.0)),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.grey[350],
+                                  hintText: 'Select Date*',
+                                ),
+                                controller: _dateController,
+                                validator: (value) {
+                                  if (value.isEmpty)
+                                    return 'Please Enter the Date';
+                                  return null;
+                                },
+                                onFieldSubmitted: (String value) {
+                                  f4.unfocus();
+                                  FocusScope.of(context).requestFocus(f5);
+                                },
+                                textInputAction: TextInputAction.next,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 5.0),
+                                child: ClipOval(
+                                  child: Material(
+                                    color:
+                                        Colors.tealAccent[700], // button color
+                                    child: InkWell(
+                                      // inkwell color
+                                      child: SizedBox(
+                                        width: 40,
+                                        height: 40,
+                                        child: Icon(
+                                          Icons.date_range_outlined,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        selectDate(context);
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          height: 60,
+                          width: MediaQuery.of(context).size.width,
+                          child: Stack(
+                            alignment: Alignment.centerRight,
+                            children: [
+                              TextFormField(
+                                focusNode: f5,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(
+                                    left: 20,
+                                    top: 10,
+                                    bottom: 10,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(90.0)),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.grey[350],
+                                  hintText: 'Select Time*',
+                                ),
+                                controller: _timeController,
+                                validator: (value) {
+                                  if (value.isEmpty)
+                                    return 'Please Enter the Time';
+                                  return null;
+                                },
+                                onFieldSubmitted: (String value) {
+                                  f5.unfocus();
+                                },
+                                textInputAction: TextInputAction.next,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 5.0),
+                                child: ClipOval(
+                                  child: Material(
+                                    color:
+                                        Colors.tealAccent[700], // button color
+                                    child: InkWell(
+                                      // inkwell color
+                                      child: SizedBox(
+                                        width: 40,
+                                        height: 40,
+                                        child: Icon(
+                                          Icons.timer_outlined,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        selectTime(context);
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Container(
+                          height: 50,
+                          width: MediaQuery.of(context).size.width,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 2,
+                              primary: Colors.tealAccent[700],
+                              onPrimary: Colors.black,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(32.0),
+                              ),
+                            ),
+                            onPressed: () async {
+                              if (_formKey.currentState.validate()) {
+                                print(_nameController.text);
+                                print(_dateController.text);
+                                print(_timeController.text);
+                                showAlertDialog(context);
+                                var fullTime = _dateController.text +
+                                    ' ' +
+                                    _timeController.text;
+                                var response =
+                                    await Service().reserveStadium(fullTime);
+
+                                print(response);
+                              }
+                            },
+                            child: Text(
+                              "Book Appointment",
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }
