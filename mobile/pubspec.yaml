@@ -44,6 +44,7 @@ dependencies:
   flutter_rounded_date_picker:
   flutter_beautiful_popup:
   image: ^2.1.4
+  flutter_secure_storage:
 dev_dependencies:
   flutter_test:
     sdk: flutter
