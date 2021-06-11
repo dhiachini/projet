@@ -78,23 +78,29 @@ exports.getUserDetails = (req, res) => {
 
     });
 }
-exports.GetUseInfo = (req, res) => {
+exports.GetUserInfo = (req, res) => {
     User.findOne({ '_id': req.body.id }, (err, user) => {
-
-        const data = {
-            userID: user._id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            token: user.token
-        }
-        //saving token to cookie
-        res.status(200).json(
-            {
-                success: true,
-                message: 'Successfully Logged In!',
-                userData: data
+        if (err) {
+            res.status(404).json({
+                success: false,
+                message: "User " + err,
             })
-    }
-    )
+        }
+        else {
+            const data = {
+                userID: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                token: user.token
+            }
+            //saving token to cookie
+            res.status(200).json(
+                {
+                    success: true,
+                    message: 'Successfully Logged In!',
+                    userData: data
+                })
+        }
+    });
 }

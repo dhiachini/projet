@@ -16,16 +16,18 @@ app.listen(port, () => {
     console.log(`Server running at here ${port}`);
 });
 const { auth } = require('./middleware/auth')
-const { RegisterUser, LoginUser, LogoutUser, getUserDetails, GetUseInfo } = require('./controller/AuthController');
-const { GetStadiumLocation, SaveStadium, getAllStadiums, getStadiumDetails } = require('./controller/StadiumController');
+const { RegisterUser, LoginUser, LogoutUser, getUserDetails } = require('./controller/AuthController');
+const { GetStadiumLocation, SaveStadium, getAllStadiums, getStadiumDetails, ReserveStadium } = require('./controller/StadiumController');
 
+
+//user
 app.post('/api/users/register', RegisterUser);
 app.post('/api/users/login', LoginUser);
 app.get('/api/users/get', auth, getUserDetails);
 app.get('/api/users/logout', auth, LogoutUser);
-
+//stadiul
 app.get('/api/stadium/location', auth, GetStadiumLocation);
 app.post('/api/stadium/save', SaveStadium);
 app.get('/api/stadium/all', getAllStadiums);
-app.get('/api/stadium/:id', getStadiumDetails)
-app.get('/api/users/getinfo', GetUseInfo)
+app.get('/api/stadium/:id', getStadiumDetails);
+app.post('/api/stadium/reserve', ReserveStadium);

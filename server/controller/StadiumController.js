@@ -1,4 +1,6 @@
+const { Reservation } = require('../models/ReservationModel');
 const { Stadium } = require('../models/StadiumModel');
+const { User } = require('../models/UserModel');
 
 exports.GetStadiumLocation = (req, res) => {
     const { minLat, maxLat, minLng, maxLng } = req.body;
@@ -14,7 +16,6 @@ exports.GetStadiumLocation = (req, res) => {
 exports.getStadiumDetails = async (req, res) => {
     console.log(req.params.id);
     const stadiumDetail = await Stadium.find({ _id: req.params.id });
-    console.log(stadiumDetail[0]);
     return res.status(200).json({
         success: true,
         stadium: stadiumDetail[0]
@@ -23,7 +24,6 @@ exports.getStadiumDetails = async (req, res) => {
 
 exports.getAllStadiums = async (req, res) => {
     const docs = await Stadium.find({});
-    console.log("Docs has been returned : " + docs.length);
     return res.status(200).json({ success: true, data: docs });
 }
 
@@ -50,4 +50,21 @@ exports.SaveStadium = async (req, res) => {
             })
         }
     });
+}
+exports.ReserveStadium = async (req, res) => {
+    console.log(req.body)
+    if (req.body.sid != undefined && req.body.uid != undefined) {
+        let reservation = await Reservation(req.body).save();
+        res.status(200).json({
+            success: true,
+            reservation
+        })
+    }
+    else {
+        res.status(500).json({
+            success: false,
+            message: "Should specify the ids",
+            error: 0
+        })
+    }
 }
