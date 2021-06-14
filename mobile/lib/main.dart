@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pfe/ui/screens/landing.dart';
 import 'package:pfe/ui/screens/signin.dart';
-import 'package:pfe/ui/screens/splashscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {

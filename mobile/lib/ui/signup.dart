@@ -109,7 +109,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             color: Colors.white,
             shape: BoxShape.circle,
           ),
-          child: Image.asset("assets/icons/register.png"),
+          child: Image.asset("assets/icons/register1.png"),
           // child: GestureDetector(
           //   onTap: () {
           //     print('Adding photo');
@@ -132,13 +132,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
               color: Colors.tealAccent[600],
             ),
             child: GestureDetector(
-                onTap: () {
-                  print('Adding photo');
-                },
-                child: Icon(
-                  Icons.add_a_photo,
-                  size: _large ? 22 : (_medium ? 15 : 13),
-                )),
+              onTap: () {
+                print('Adding photo');
+              },
+            ),
           ),
         ),
       ],
@@ -197,7 +194,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           decoration: InputDecoration(
             prefixIcon: Icon(Icons.assignment_ind_outlined,
                 color: Colors.tealAccent, size: 20),
-            hintText: "First name",
+            hintText: "Last name",
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
                 borderSide: BorderSide.none),
