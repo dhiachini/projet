@@ -42,7 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               children: <Widget>[
                 Opacity(opacity: 0.88, child: CustomAppBar()),
-                clipShape(),
+                //clipShape(),
                 form(),
                 acceptTermsTextRow(),
                 SizedBox(
@@ -151,7 +151,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           children: <Widget>[
             firstNameTextFormField(),
             SizedBox(height: _height / 60.0),
-            lastNameTextFormField(),
+            //lastNameTextFormField(),
             SizedBox(height: _height / 60.0),
             emailTextFormField(),
             SizedBox(height: _height / 60.0),

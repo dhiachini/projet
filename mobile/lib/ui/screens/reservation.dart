@@ -117,24 +117,25 @@ class _BookingScreenState extends State<BookingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.tealAccent[700],
         key: _scaffoldKey,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(
             'Appointment booking',
           ),
           iconTheme: IconThemeData(
-            color: Colors.black,
+            color: Colors.white,
           ),
         ),
         body: SafeArea(
           child: Container(
+            height: double.infinity,
+            width: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(
-                    'https://i.pinimg.com/564x/98/58/c5/9858c5e9572784de169975273f3dfdbb.jpg'),
+                image: AssetImage("assets/images/milou.jpeg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -309,6 +310,7 @@ class _BookingScreenState extends State<BookingScreen> {
                             },
                             child: Text(
                               "Book Appointment",
+                              style: TextStyle(color: Colors.white),
                             ),
                           ),
                         ),

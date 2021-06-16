@@ -1,10 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:pfe/constants/theme.dart';
+import 'package:pfe/models/User.dart';
+import 'package:pfe/models/User.dart';
+import 'package:pfe/network/Service.dart';
+import '../fitness.dart';
+import '../tabicon.dart';
 import 'assets.dart';
 import 'network_image.dart';
 
-class ProfileThreePage extends StatelessWidget {
+class ProfileThreePage extends StatefulWidget {
   static final String path = "lib/src/pages/profile/profile3.dart";
+
+  @override
+  _ProfileThreePageState createState() => _ProfileThreePageState();
+}
+
+class _ProfileThreePageState extends State<ProfileThreePage> {
+  User user;
+  @override
+  void initState() {
+    futuremethod();
+    super.initState();
+  }
+
+  void futuremethod() async {
+    setState(() {
+      Service().getUserInfo().then((res) => user = res);
+    });
+  }
+
   final image = avatars[0];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -254,14 +254,17 @@ class _SignInScreenState extends State<SignInScreen> {
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       onPressed: () async {
-        String url = "http://10.0.2.2:3000/api/users/login";
+        String url = "http://192.168.1.22:3000/api/users/login";
 
-        var response = await http.post(Uri.parse(url), headers: {
-          "Accept": "application/json"
-        }, body: {
-          "password": passwordController.text,
-          "email": emailController.text,
-        });
+        var response = await http.post(
+            Uri.parse("http://192.168.1.22:3000/api/users/login"),
+            headers: {
+              "Accept": "application/json"
+            },
+            body: {
+              "password": passwordController.text,
+              "email": emailController.text,
+            });
         // Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
         // final SharedPreferences prefs = await _prefs;
         // prefs.setString('user', jsonEncode(response.body.));
