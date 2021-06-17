@@ -6,8 +6,8 @@ window.onload = () => {
     register.addEventListener('click', async (e) => {
         e.preventDefault;
         if (document.getElementById('agree').checked) {
-            if (document.getElementById('cpass').value === document.getElementById('password')) {
-                let fullName = document.getElementById('fullname').value;
+            if (document.getElementById('cpass').value === document.getElementById('password').value) {
+                let fullName = document.getElementById('username').value;
                 let email = document.getElementById('email').value;
                 let password = document.getElementById('password').value;
                 let phonenumber = document.getElementById('phonenumber').value;
@@ -20,7 +20,7 @@ window.onload = () => {
                     body: JSON.stringify({
                         email,
                         password,
-                        fullName,
+                        username: fullName,
                         phonenumber
                     }
                     ), mode: "cors"
@@ -29,7 +29,7 @@ window.onload = () => {
                     .then((res) => {
                         console.log(res);
                         //localStorage.setItem('', );
-                        window.location.replace("./index.html");
+                        //window.location.replace("./index.html");
                     })
                     .catch(err => console.log(err))
             }

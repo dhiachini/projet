@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Login Page Template - W3jar.Com</title>
+    <link href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/style-with-prefix.css">
+    <style>
+        .srouce {
+            text-align: center;
+            color: #ffffff;
+            padding: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+        }
+
+        /* Style the submit button */
+        input[type=submit] {
+            background-color: #04AA6D;
+            color: white;
+        }
+
+        /* Style the container for inputs */
+        .container {
+            padding: 20px;
+        }
+
+        /* The message box is shown when the user clicks on the password field */
+        #message {
+            display: none;
+            color: #000;
+            position: relative;
+            padding: 5px 5px 5px;
+            padding-left: 21px;
+            margin-top: 10px;
+        }
+
+        #message p {
+            padding: 10px 10px;
+            font-size: 18px;
+        }
+
+        /* Add a green text color and a checkmark when the requirements are right */
+        .valid {
+            color: rgb(0, 207, 145);
+        }
+
+        .valid:before {
+            position: relative;
+            left: -35px;
+            content: "✔";
+        }
+
+        /* Add a red text color and an "x" when the requirements are wrong */
+        .invalid {
+            color: red;
+        }
+
+        .invalid:before {
+            position: relative;
+            left: -35px;
+            content: "✖";
+        }
+
+        .visible {
+            display: block;
+            color: rgb(212, 66, 66);
+        }
+
+        .invisible {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-container">
+        <div class="form-container">
+
+            <div class="form-body">
+                <h2 class="title">Register</h2>
+                <!--<div class="social-login">
+                    <ul>
+                        <li class="google"><a href="#">Google</a></li>
+                        <li class="fb"><a href="#">Facebook</a></li>
+                    </ul>
+                </div><-- SOCIAL LOGIN --
+
+                <div class="_or">or</div>-->
+                <div class="" id="wrong-pass"></div>
+                <div class="" id="message">
+                    <h3>Password must contain the following:</h3>
+                    <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                    <p id="number" class="invalid">A <b>number</b></p>
+                    <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                </div>
+                <span id="wrong-pass"></span>
+
+                <div class="the-form">
+
+                    <label for="email">Last name</label>
+                    <input type="email" name="last_name" id="last_name" placeholder="Enter your last name">
+
+                    <label for="email">First name</label>
+                    <input type="email" name="first_name" id="first_name" placeholder="Enter your first name">
+
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" placeholder="Enter your email">
+
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Enter your password">
+
+
+                    <label for="password">Confirm password</label>
+                    <input type="password" name="confirm" id="confirm" placeholder="Enter your confirm password">
+
+
+                    <label for="password">Phone number</label>
+                    <input type="email" name="phonenumber" id="phonenumber" placeholder="Enter your phone number">
+
+                    <div><input type="checkbox" name="agree" id="agree"> Agree to terms and conditions</div>
+
+                    <input type="submit" name="register" id="register" value="Register">
+
+                </div>
+                <div class="form-footer">
+                    <div>
+                        <span>Have an account?</span> <a href="./index.html">Sign in</a>
+                    </div>
+                </div>
+            </div><!-- FORM BODY-->
+
+            <!-- FORM FOOTER -->
+
+        </div><!-- FORM CONTAINER -->
+    </div>
+    <script src="js/register.js"></script>
+</body>
+
+</html>
