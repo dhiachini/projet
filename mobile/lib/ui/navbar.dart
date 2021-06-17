@@ -5,6 +5,7 @@ import 'package:pfe/constants/theme.dart';
 import 'package:pfe/ui/tabicon.dart';
 
 import 'fitness.dart';
+import 'screens/landing.dart';
 
 class BottomBarView extends StatefulWidget {
   const BottomBarView(
@@ -144,7 +145,7 @@ class _BottomBarViewState extends State<BottomBarView>
                         color: FitnessAppTheme.nearlyDarkBlue,
                         gradient: LinearGradient(
                             colors: [
-                              FitnessAppTheme.nearlyDarkBlue,
+                              Colors.blue,
                               HexColor('#6A88E5'),
                             ],
                             begin: Alignment.topLeft,
@@ -165,11 +166,17 @@ class _BottomBarViewState extends State<BottomBarView>
                           highlightColor: Colors.transparent,
                           focusColor: Colors.transparent,
                           onTap: () {
-                            widget.addClick();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<dynamic>(
+                                  builder: (BuildContext context) =>
+                                      LandingScreen(),
+                                  fullscreenDialog: true),
+                            );
                           },
                           child: Icon(
-                            Icons.add,
-                            color: FitnessAppTheme.white,
+                            Icons.home,
+                            color: Colors.white,
                             size: 32,
                           ),
                         ),

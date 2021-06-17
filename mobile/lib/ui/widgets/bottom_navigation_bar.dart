@@ -148,7 +148,7 @@ class _BottomBarViewState extends State<BottomBarView>
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight),
-                        shape: BoxShape.rectangle,
+                        shape: BoxShape.circle,
                         boxShadow: <BoxShadow>[
                           BoxShadow(
                               color: Colors.blueGrey.withOpacity(0.4),
