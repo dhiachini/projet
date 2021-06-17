@@ -2,7 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:pfe/ui/widgets/furniture.dart';
 import 'package:pfe/ui/widgets/trustyhorizontalmenu.dart';
 
-class CatalogueScreen extends StatelessWidget {
+import '../tabicon.dart';
+import 'maps.dart';
+
+class CatalogueScreen extends StatefulWidget {
+  const CatalogueScreen({Key key, AnimationController animationController});
+  @override
+  _CatalogueScreenState createState() => _CatalogueScreenState();
+}
+
+class _CatalogueScreenState extends State<CatalogueScreen>
+    with TickerProviderStateMixin {
+  AnimationController animationController;
+
+  List<TabIconData> tabIconsList = TabIconData.tabIconsList;
+
+  Widget tabBody = Maps();
+
+  @override
+  void initState() {
+    tabIconsList.forEach((TabIconData tab) {
+      tab.isSelected = false;
+    });
+    tabIconsList[0].isSelected = true;
+
+    animationController = AnimationController(
+        duration: const Duration(milliseconds: 600), vsync: this);
+    tabBody = Maps(animationController: animationController);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

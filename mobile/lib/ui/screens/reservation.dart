@@ -117,18 +117,7 @@ class _BookingScreenState extends State<BookingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.tealAccent[700],
         key: _scaffoldKey,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Text(
-            'Appointment booking',
-          ),
-          iconTheme: IconThemeData(
-            color: Colors.white,
-          ),
-        ),
         body: SafeArea(
           child: Container(
             height: double.infinity,

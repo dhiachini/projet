@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:pfe/ui/widgets/global.dart';
 import 'package:pfe/ui/widgets/mycustommenu.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key key, AnimationController animationController});
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

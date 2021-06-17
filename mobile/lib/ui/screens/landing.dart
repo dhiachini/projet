@@ -18,8 +18,10 @@ import 'package:pfe/ui/widgets/profile.dart';
 import '../fitness.dart';
 import '../landing.dart';
 import '../navbar.dart';
+import 'catalogue.dart';
 
 class LandingScreen extends StatefulWidget {
+  const LandingScreen({Key key, AnimationController animationController});
   @override
   _LandingScreenState createState() => _LandingScreenState();
 }
@@ -76,104 +78,24 @@ class _LandingScreenState extends State<LandingScreen>
               if (snapshot.hasData) {
                 return Container(
                   child: Scaffold(
-                      bottomNavigationBar: bottomBar(),
                       body: Stack(
-                        children: <Widget>[
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            onTap: () {
-                              FocusScope.of(context).requestFocus(FocusNode());
-                            },
-                            child: Column(
-                              children: <Widget>[
-                                getAppBarUI(),
-                                Expanded(
-                                  child: NestedScrollView(
-                                    controller: _scrollController,
-                                    headerSliverBuilder: (BuildContext context,
-                                        bool innerBoxIsScrolled) {
-                                      return <Widget>[
-                                        SliverList(
-                                          delegate: SliverChildBuilderDelegate(
-                                              (BuildContext context,
-                                                  int index) {
-                                            return Column(
-                                              children: <Widget>[
-                                                getSearchBarUI(),
-                                              ],
-                                            );
-                                          }, childCount: 1),
-                                        ),
-                                        SliverPersistentHeader(
-                                          pinned: true,
-                                          floating: true,
-                                          delegate: ContestTabHeader(
-                                            getFilterBarUI(),
-                                          ),
-                                        ),
-                                      ];
-                                    },
-                                    body: Container(
-                                      color: HotelAppTheme.buildLightTheme()
-                                          .backgroundColor,
-                                      child: ListView.builder(
-                                        itemCount: stadiums.length,
-                                        padding: const EdgeInsets.only(top: 8),
-                                        scrollDirection: Axis.vertical,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          final int count = stadiums.length > 10
-                                              ? 10
-                                              : stadiums.length;
-                                          final Animation<double>
-                                              animation = Tween<double>(
-                                                      begin: 0.0, end: 1.0)
-                                                  .animate(CurvedAnimation(
-                                                      parent:
-                                                          animationController,
-                                                      curve: Interval(
-                                                          (1 / count) * index,
-                                                          1.0,
-                                                          curve: Curves
-                                                              .fastOutSlowIn)));
-                                          animationController.forward();
-                                          return HotelListView(
-                                            callback: () {},
-                                            hotelData: stadiums[index],
-                                            animation: animation,
-                                            animationController:
-                                                animationController,
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      )),
+                    children: <Widget>[tabBody, bottomBar()],
+                  )),
                 );
               } else if (snapshot.hasError) {
               } else {
-                return Scaffold(
-                    body: Center(
-                        child: Container(
-                            color: Colors.white,
-                            child: Center(
-                                child: Column(children: <Widget>[
-                              CupertinoActivityIndicator(
-                                radius: 40,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 16),
-                                child: Text('Loading...'),
-                              )
-                            ])))));
+                return Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: Center(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                        Text('Loading...'),
+                        CircularProgressIndicator(),
+                      ])),
+                );
               }
             }));
   }
@@ -181,32 +103,104 @@ class _LandingScreenState extends State<LandingScreen>
   Widget bottomBar() {
     return Column(
       children: <Widget>[
-        BottomBarView(
-          tabIconsList: tabIconsList,
-          addClick: () {},
-          changeIndex: (int index) {
-            if (index == 0 || index == 2) {
-              animationController.reverse().then<dynamic>((data) {
-                if (!mounted) {
-                  return;
-                }
-                setState(() {
-                  tabBody = Maps();
-                });
-              });
-            } else if (index == 1 || index == 3) {
-              animationController.reverse().then<dynamic>((data) {
-                if (!mounted) {
-                  return;
-                }
-                setState(() {
-                  tabBody = HomeScreen();
-                });
-              });
-            }
-          },
+        const Expanded(
+          child: SizedBox(),
         ),
+        BottomBarView(
+            tabIconsList: tabIconsList,
+            addClick: () {},
+            changeIndex: (int index) {
+              if (index == 0) {
+                setState(() {
+                  tabBody = Maps(animationController: animationController);
+                });
+              } else if (index == 1) {
+                setState(() {
+                  tabBody =
+                      LandingScreen(animationController: animationController);
+                });
+              } else if (index == 2) {
+                setState(() {
+                  tabBody =
+                      CatalogueScreen(animationController: animationController);
+                });
+              } else if (index == 3) {
+                setState(() {
+                  tabBody =
+                      HomeScreen(animationController: animationController);
+                });
+              }
+            }),
       ],
+    );
+  }
+
+  Widget bodyScreen() {
+    return InkWell(
+      splashColor: Colors.transparent,
+      focusColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Column(
+        children: <Widget>[
+          getAppBarUI(),
+          Expanded(
+            child: NestedScrollView(
+              controller: _scrollController,
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                      return Column(
+                        children: <Widget>[
+                          getSearchBarUI(),
+                        ],
+                      );
+                    }, childCount: 1),
+                  ),
+                  SliverPersistentHeader(
+                    pinned: true,
+                    floating: true,
+                    delegate: ContestTabHeader(
+                      getFilterBarUI(),
+                    ),
+                  ),
+                ];
+              },
+              body: Container(
+                color: HotelAppTheme.buildLightTheme().backgroundColor,
+                child: ListView.builder(
+                  itemCount: stadiums.length,
+                  padding: const EdgeInsets.only(top: 8),
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (BuildContext context, int index) {
+                    final int count =
+                        stadiums.length > 10 ? 10 : stadiums.length;
+                    final Animation<double> animation =
+                        Tween<double>(begin: 0.0, end: 1.0).animate(
+                            CurvedAnimation(
+                                parent: animationController,
+                                curve: Interval((1 / count) * index, 1.0,
+                                    curve: Curves.fastOutSlowIn)));
+                    animationController.forward();
+                    return HotelListView(
+                      callback: () {},
+                      hotelData: stadiums[index],
+                      animation: animation,
+                      animationController: animationController,
+                    );
+                  },
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 

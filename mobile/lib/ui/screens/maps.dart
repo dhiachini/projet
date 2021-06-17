@@ -9,6 +9,7 @@ import 'package:pfe/ui/screens/details.dart';
 import 'package:geolocator/geolocator.dart';
 
 class Maps extends StatefulWidget {
+  const Maps({Key key, AnimationController animationController});
   @override
   _MapsState createState() => _MapsState();
 }
