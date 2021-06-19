@@ -13,7 +13,7 @@ import 'package:pfe/ui/screens/stadiumshop.dart';
 import 'package:pfe/ui/tabicon.dart';
 import 'package:pfe/ui/widgets/calendar.dart';
 import 'package:pfe/ui/widgets/hotelListViewer.dart';
-import 'package:pfe/ui/widgets/profile.dart';
+import 'package:pfe/ui/screens/profile.dart';
 
 import '../fitness.dart';
 import '../landing.dart';
@@ -38,7 +38,16 @@ class _LandingScreenState extends State<LandingScreen>
   List<Stadium> stadiums = [];
 
   Widget tabBody = Container(
-    color: FitnessAppTheme.background,
+    width: double.infinity,
+    height: double.infinity,
+    child: Center(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+          Text('Loading...'),
+          CircularProgressIndicator(),
+        ])),
   );
 
   @override

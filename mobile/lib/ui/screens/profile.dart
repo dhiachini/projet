@@ -5,8 +5,8 @@ import 'package:pfe/models/User.dart';
 import 'package:pfe/network/Service.dart';
 import '../fitness.dart';
 import '../tabicon.dart';
-import 'assets.dart';
-import 'network_image.dart';
+import '../widgets/assets.dart';
+import '../widgets/network_image.dart';
 
 class ProfileThreePage extends StatefulWidget {
   static final String path = "lib/src/pages/profile/profile3.dart";

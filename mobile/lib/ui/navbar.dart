@@ -166,13 +166,8 @@ class _BottomBarViewState extends State<BottomBarView>
                           highlightColor: Colors.transparent,
                           focusColor: Colors.transparent,
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute<dynamic>(
-                                  builder: (BuildContext context) =>
-                                      LandingScreen(),
-                                  fullscreenDialog: true),
-                            );
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => LandingScreen()));
                           },
                           child: Icon(
                             Icons.home,

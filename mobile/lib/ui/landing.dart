@@ -11,7 +11,7 @@ import 'package:pfe/models/Stadium.dart';
 import 'package:pfe/ui/maps.dart';
 import 'package:pfe/ui/widgets/calendar.dart';
 import 'package:pfe/ui/widgets/hotelListViewer.dart';
-import 'package:pfe/ui/widgets/profile.dart';
+import 'package:pfe/ui/screens/profile.dart';
 
 import '../main.dart';
 

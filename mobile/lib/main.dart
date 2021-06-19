@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pfe/ui/landing.dart';
 import 'package:pfe/ui/screens/details.dart';
+import 'package:pfe/ui/screens/event.dart';
 import 'package:pfe/ui/screens/landing.dart';
 import 'package:pfe/ui/screens/reservation.dart';
 import 'package:pfe/ui/screens/signin.dart';
@@ -19,6 +20,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: "OVictoire",
         theme: ThemeData(primaryColor: Colors.orange[900]),
-        home: HotelHomeScreen());
+        home: CourseInfoScreen());
   }
 }

@@ -12,7 +12,7 @@ import 'package:pfe/ui/screens/landing.dart';
 import 'package:pfe/ui/screens/reservation.dart';
 import 'package:pfe/ui/screens/stadiumshop.dart';
 import 'package:pfe/ui/screens/verify.dart';
-import 'package:pfe/ui/widgets/profile.dart';
+import 'package:pfe/ui/screens/profile.dart';
 
 import '../navbar.dart';
 import '../tabicon.dart';
@@ -132,7 +132,7 @@ class _DetailsState extends State<Details> with TickerProviderStateMixin {
                 setState(() {
                   print("Screen tbadlet a chef $tabBody");
                   tabBody =
-                      LandingScreen(animationController: animationController);
+                      HomeScreen(animationController: animationController);
                 });
               } else if (index == 2) {
                 setState(() {
@@ -143,8 +143,7 @@ class _DetailsState extends State<Details> with TickerProviderStateMixin {
               } else if (index == 3) {
                 setState(() {
                   print("Screen tbadlet a chef $tabBody");
-                  tabBody =
-                      HomeScreen(animationController: animationController);
+                  tabBody = ProfileThreePage();
                 });
               }
             }),
