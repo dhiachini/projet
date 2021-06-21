@@ -22,7 +22,7 @@ window.onload = () => {
                 console.log(res);
                     if(res.success)
                         localStorage.setItem('userInfo', JSON.stringify(res.userData));
-                        window.location.replace("./index.html");
+                        window.location.replace("./dashboard.html");
                         document.getElementById('sub').innerHTML = "Log In"    
             })
             .catch(err =>{ console.log(err); 

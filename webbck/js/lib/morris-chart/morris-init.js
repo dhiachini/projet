@@ -124,51 +124,50 @@ $( function () {
 
 
 	// Extra chart
+	// Dashboard 1 Morris-chart
+$( function () {
+	"use strict";
+
+
+	// Extra chart
 	Morris.Area( {
 		element: 'extra-area-chart',
 		data: [ {
-				period: '2001',
-				smartphone: 0,
-				windows: 0,
-				mac: 0
+				period: 'Monday',
+				iphone: 0,
+				imac: 0,
         }, {
-				period: '2002',
-				smartphone: 90,
-				windows: 60,
-				mac: 25
+				period: 'Tuesday',
+				iphone: 10,
+				imac: 60,
         }, {
-				period: '2003',
-				smartphone: 40,
-				windows: 80,
-				mac: 35
+				period: 'Wednesday',
+				iphone: 120,
+				imac: 10,
         }, {
-				period: '2004',
-				smartphone: 30,
-				windows: 47,
-				mac: 17
+				period: 'Thursday',
+				iphone: 0,
+				imac: 0,
         }, {
-				period: '2005',
-				smartphone: 150,
-				windows: 40,
-				mac: 120
+				period: 'Friday',
+				iphone: 0,
+				imac: 0,
         }, {
-				period: '2006',
-				smartphone: 25,
-				windows: 80,
-				mac: 40
+				period: 'Saturday',
+				iphone: 160,
+				imac: 75,
         }, {
-				period: '2007',
-				smartphone: 10,
-				windows: 10,
-				mac: 10
+				period: 'Sunday',
+				iphone: 10,
+				imac: 120,
         }
 
 
         ],
-		lineColors: [ '#26DAD2', '#fc6180', '#4680ff' ],
+		lineColors: [ '#26DAD2', '#fc6180' ],
 		xkey: 'period',
-		ykeys: [ 'smartphone', 'windows', 'mac' ],
-		labels: [ 'Phone', 'Windows', 'Mac' ],
+		ykeys: [ 'iphone', 'imac'],
+		labels: [ 'iphone', 'imac'],
 		pointSize: 0,
 		lineWidth: 0,
 		resize: true,
@@ -178,6 +177,65 @@ $( function () {
 		hideHover: 'auto'
 
 	} );
+
+
+
+} );
+
+
+
+
+// // Dashboard 1 Morris-chart
+// $( function () {
+// 	"use strict";
+
+
+// 	// Extra chart
+// 	Morris.Area( {
+// 		element: 'extra-area-chart',
+// 		data: [ {
+// 				period: 'Monday',
+// 				Match: 0,
+//         }, {
+// 				period: 'Tuesday',
+// 				Match: 10,
+//         }, {
+// 				period: 'Wednesday',
+// 				Match: 120,
+//         },{
+// 				period: 'Thursday',
+// 				Match: 0,
+// 		}, {
+// 				period: 'Friday',
+// 				Match: 10,
+// 		}, {
+// 				period: 'Saturday',
+// 				Match: 120,
+// 		}, {
+// 				period: 'Sunday',
+// 				Match: 120,
+// 		}
+
+
+//         ],
+// 		lineColors: [ '#26DAD2' ],
+// 		xkey: 'period',
+// 		ykeys: [ 'Match', 'Event'],
+// 		labels: [ 'Match', 'Event'],
+// 		pointSize: 0,
+// 		lineWidth: 0,
+// 		resize: true,
+// 		fillOpacity: 0.8,
+// 		behaveLikeLine: true,
+// 		gridLineColor: '#e0e0e0',
+// 		hideHover: 'auto'
+
+// 	} );
+
+
+
+// } );
+
 	Morris.Area( {
 		element: 'morris-area-chart',
 		data: [ {

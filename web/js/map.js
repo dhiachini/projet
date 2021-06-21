@@ -53,7 +53,8 @@ function toLatLng(x, y, map) {
             let name = document.getElementById('sname').value;
             let description = document.getElementById('sdesc').value;
             let price = document.getElementById('sprice').value;
-            let photo = document.getElementById("spics").files[0];
+            let files = document.getElementById("spics").files;
+            console.log(files)
             if(name.length > 6 && description.length > 10 && price != "" ){
                 await fetch('http://localhost:3000/api/stadium/save',{
                     method: 'POST',
@@ -65,7 +66,7 @@ function toLatLng(x, y, map) {
                         description,
                         price,
                         position: theMarker._latlng,
-                        photo
+                        photo: files[0]
                     }
                     ), mode: "cors"
                 })  
