@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const multer = require('multer');
+const upload = multer({dest: __dirname + '/uploads/images'});
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,7 +21,6 @@ const { auth } = require('./middleware/auth')
 const { RegisterUser, LoginUser, LogoutUser, getUserDetails } = require('./controller/AuthController');
 const { GetStadiumLocation, SaveStadium, getAllStadiums, getStadiumDetails, ReserveStadium } = require('./controller/StadiumController');
 
-
 //user
 app.post('/api/users/register', RegisterUser);
 app.post('/api/users/login', LoginUser);
@@ -31,3 +32,11 @@ app.post('/api/stadium/save', SaveStadium);
 app.get('/api/stadium/all', getAllStadiums);
 app.get('/api/stadium/:id', getStadiumDetails);
 app.post('/api/stadium/reserve', ReserveStadium);
+//app.post('/api/event/add', SaveEvent)
+//boutique 
+app.post('/upload', upload.single('photo'), (req, res) => {
+    if(req.file) {
+        res.json(req.file);
+    }
+    else throw 'error';
+});
