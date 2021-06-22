@@ -12,6 +12,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 app.use(cookieParser());
 app.use(cors());
 app.listen(port, () => {
@@ -39,4 +40,7 @@ app.post('/upload', upload.single('photo'), (req, res) => {
         res.json(req.file);
     }
     else throw 'error';
+    
+    // File input field name is simply 'file'
+    
 });

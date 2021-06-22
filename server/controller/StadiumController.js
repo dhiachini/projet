@@ -84,53 +84,39 @@ exports.ReserveStadium = async (req, res) => {
     }
 }
 
-exports.SaveStadium = (upload.single('files'), async (req, res) => {
-    console.log(req.file);
-    console.log(req.body);
-        const now = Date.now();
-      const tempPath = req.file.path;
-      const targetPath = path.join(__dirname, "./uploads/"+now+".png");
-  
-      if (path.extname(req.file.originalname).toLowerCase() === ".png" || path.extname(req.file.originalname).toLowerCase() === ".jpeg" || path.extname(req.file.originalname).toLowerCase() === ".jpg") {
-        fs.rename(tempPath, targetPath, async  err => {
-          if (err) return handleError(err, res);
-  
-       
-    req.body.picPath = targetPath;
-    req.body.rating = 0
-    const stadium = new Stadium(req.body);
-    await stadium.save((err, doc) => {
-       if (err) {
-           return res.status(422).json({ errors: err })
-       } else {
-           const stadiumData = {
-               name: doc.name,
-               description: doc.description,
-               price: doc.price,
-               rating: doc.rating,
-               picPath: doc.picPath,
-               positions: {
-                    lat: doc.positions.lat,
-                    lng: doc.positions.lng
-               }
-           }
-           return res.status(200).json({
-               success: true,
-               message: 'Successfully Signed Up',
-               stadiumData
+exports.SaveStadium = upload.single('file'), async (req, res) => {
+    console.log(req.body)
+    var file = __dirname + '/' + req.body.data.filename;
+    fs.rename(req.file.path, file, async function(err) {
+        if (err) {
+        console.log(err);
+        res.send(500);
+        } else {
+        const stadium = new Stadium(req.body);
+        await stadium.save((err, doc) => {
+        if (err) {
+            return res.status(422).json({ errors: err })
+        } else {
+            const stadiumData = {
+                name: doc.name,
+                description: doc.description,
+                price: doc.price,
+                rating: doc.rating,
+                picPath: doc.picPath,
+                positions: {
+                        lat: doc.positions.lat,
+                        lng: doc.positions.lng
+                }
+            }
+            return res.status(200).json({
+                success: true,
+                message: 'Successfully Signed Up',
+                stadiumData
            })
        }
    });
-});
-} else {
-    fs.unlink(tempPath, err => {
-      if (err) return handleError(err, res);
-
-      res
-        .status(403)
-        .contentType("text/plain")
-        .end("Only .png files are allowed!");
-    });
-  }
-}
-);
+   res.json({
+    message: 'File uploaded successfully',
+    filename: req.file.filename
+   });
+  }})};

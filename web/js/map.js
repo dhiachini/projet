@@ -53,22 +53,22 @@ function toLatLng(x, y, map) {
             let name = document.getElementById('sname').value;
             let description = document.getElementById('sdesc').value;
             let price = document.getElementById('sprice').value;
-            let files = document.getElementById("spics").files;
-            console.log(files)
+            let file = document.getElementById("spics").files[0];
+            let form = new FormData();
+            form.append('photo', file);
+            form.append('name', name);
+            form.append('description', description);
+            form.append('price', price);
+            for (var p of form) {
+                console.log(p);
+              }
             if(name.length > 6 && description.length > 10 && price != "" ){
                 await fetch('http://localhost:3000/api/stadium/save',{
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json;charset=utf-8'
+                        'Accept': 'multipart/form-data'
                     },
-                    body: JSON.stringify({
-                        name,
-                        description,
-                        price,
-                        position: theMarker._latlng,
-                        photo: files[0]
-                    }
-                    ), mode: "cors"
+                    body: JSON.stringify({data: form}), mode: "cors"
                 })  
                 .then(res => res.json())
                 .then((res) => {

@@ -1,4 +1,3 @@
-// Dashboard 1 Morris-chart
 $( function () {
 	"use strict";
 
@@ -8,46 +7,45 @@ $( function () {
 		element: 'extra-area-chart',
 		data: [ {
 				period: 'Monday',
-				iphone: 0,
-				imac: 0,
+				Match: 1,
+				Event: 3,
         }, {
 				period: 'Tuesday',
-				iphone: 10,
-				imac: 60,
+				Match: 5,
+				Event: 2,
         }, {
 				period: 'Wednesday',
-				iphone: 120,
-				imac: 10,
+				Match: 7,
+				Event: 2,
         }, {
 				period: 'Thursday',
-				iphone: 0,
-				imac: 0,
+				Match: 1,
+				Event: 2,
         }, {
 				period: 'Friday',
-				iphone: 0,
-				imac: 0,
+				Match: 8,
+				Event: 1,
         }, {
 				period: 'Saturday',
-				iphone: 160,
-				imac: 75,
+				Match: 7,
+				Event: 12,
         }, {
 				period: 'Sunday',
-				iphone: 10,
-				imac: 120,
+				Match: 1,
+				Event: 2,
         }
 
 
         ],
-		lineColors: [ '#26DAD2', '#fc6180' ],
+		parseTime: false,
+		lineColors: [ '#26DAD2', '#4680ff' ],
 		xkey: 'period',
-		ykeys: [ 'iphone', 'imac'],
-		labels: [ 'iphone', 'imac'],
+		ykeys: [ 'Match', 'Event' ],
+		labels: [ 'Match', 'Event' ],
 		pointSize: 0,
 		lineWidth: 0,
 		resize: true,
 		fillOpacity: 0.8,
-		behaveLikeLine: true,
-		gridLineColor: '#e0e0e0',
 		hideHover: 'auto'
 
 	} );
@@ -55,57 +53,3 @@ $( function () {
 
 
 } );
-
-
-
-
-// // Dashboard 1 Morris-chart
-// $( function () {
-// 	"use strict";
-
-
-// 	// Extra chart
-// 	Morris.Area( {
-// 		element: 'extra-area-chart',
-// 		data: [ {
-// 				period: 'Monday',
-// 				Match: 0,
-//         }, {
-// 				period: 'Tuesday',
-// 				Match: 10,
-//         }, {
-// 				period: 'Wednesday',
-// 				Match: 120,
-//         },{
-// 				period: 'Thursday',
-// 				Match: 0,
-// 		}, {
-// 				period: 'Friday',
-// 				Match: 10,
-// 		}, {
-// 				period: 'Saturday',
-// 				Match: 120,
-// 		}, {
-// 				period: 'Sunday',
-// 				Match: 120,
-// 		}
-
-
-//         ],
-// 		lineColors: [ '#26DAD2' ],
-// 		xkey: 'period',
-// 		ykeys: [ 'Match', 'Event'],
-// 		labels: [ 'Match', 'Event'],
-// 		pointSize: 0,
-// 		lineWidth: 0,
-// 		resize: true,
-// 		fillOpacity: 0.8,
-// 		behaveLikeLine: true,
-// 		gridLineColor: '#e0e0e0',
-// 		hideHover: 'auto'
-
-// 	} );
-
-
-
-// } );
