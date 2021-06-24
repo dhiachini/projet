@@ -68,7 +68,7 @@ function toLatLng(x, y, map) {
                     headers: {
                         'Accept': 'multipart/form-data'
                     },
-                    body: JSON.stringify({data: form}), mode: "cors"
+                    body: {data: form}, mode: "cors"
                 })  
                 .then(res => res.json())
                 .then((res) => {
