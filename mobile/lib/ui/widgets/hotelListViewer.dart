@@ -22,6 +22,7 @@ class HotelListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(hotelData.toJson());
     return AnimatedBuilder(
       animation: animationController,
       builder: (BuildContext context, Widget child) {
@@ -140,7 +141,8 @@ class HotelListView extends StatelessWidget {
                                                   SmoothStarRating(
                                                     allowHalfRating: true,
                                                     starCount: 5,
-                                                    rating: hotelData.rating,
+                                                    rating:
+                                                        hotelData.rating ?? 0.0,
                                                     size: 20,
                                                     color: HotelAppTheme
                                                             .buildLightTheme()

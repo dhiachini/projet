@@ -129,17 +129,17 @@ class _DetailsState extends State<Details> {
                                       children: <Widget>[
                                         Row(
                                           children: [
-                                            RatingBarIndicator(
-                                              rating: stadium.rating,
-                                              itemBuilder: (context, index) =>
-                                                  Icon(
-                                                Icons.star,
-                                                color: Colors.tealAccent[700],
-                                              ),
-                                              itemCount: 5,
-                                              itemSize: 30.0,
-                                              direction: Axis.horizontal,
-                                            ),
+                                            // // // RatingBarIndicator(
+                                            // // //   rating: stadium.rating,
+                                            // // //   itemBuilder: (context, index) =>
+                                            // // //       Icon(
+                                            // // //     Icons.star,
+                                            // // //     color: Colors.tealAccent[700],
+                                            // // //   ),
+                                            // //   itemCount: 5,
+                                            // //   itemSize: 30.0,
+                                            // //   direction: Axis.horizontal,
+                                            // ),
                                           ],
                                         ),
                                         Text.rich(

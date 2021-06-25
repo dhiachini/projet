@@ -3,7 +3,7 @@ class Stadium {
   String name;
   String description;
   double rating;
-  int price;
+  double price;
   String picPath;
   Positions positions;
 

@@ -46,6 +46,7 @@ class _LandingScreenState extends State<LandingScreen>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
           Text('Loading...'),
+          SizedBox(height: 5),
           CircularProgressIndicator(),
         ])),
   );
@@ -59,16 +60,20 @@ class _LandingScreenState extends State<LandingScreen>
   }
 
   Future<List<Stadium>> getStadiums() async {
-    var response =
-        await http.get(Uri.parse("http://10.0.2.2:3000/api/stadium/all"));
-    print(response.body);
-    var listGenerate = jsonDecode(response.body);
-    var l = listGenerate['data'];
-
-    for (int i = 0; i < l.length; i++) {
-      stadiums.add(Stadium.fromJson(l[i]));
+    try {
+      var response =
+          await http.get(Uri.parse("http://10.0.2.2:3000/api/stadium/all"));
+      var listGenerate = jsonDecode(response.body);
+      var l = listGenerate['data'];
+      print(l.length);
+      for (int i = 0; i < l.length; i++) {
+        print(l[i]);
+        stadiums.add(Stadium.fromJson(l[i]));
+      }
+      return stadiums;
+    } catch (err) {
+      print('This is the rr from catch$err');
     }
-    return stadiums;
   }
 
   @override
@@ -87,8 +92,6 @@ class _LandingScreenState extends State<LandingScreen>
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Container(
-                  width: double.infinity,
-                  height: double.infinity,
                   child: Scaffold(
                       body: Stack(
                     children: <Widget>[tabBody, bottomBar()],
@@ -96,19 +99,6 @@ class _LandingScreenState extends State<LandingScreen>
                 );
               } else if (snapshot.hasError) {
                 print(snapshot.error);
-              } else {
-                return Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: Center(
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                        Text('Loading...'),
-                        CircularProgressIndicator(),
-                      ])),
-                );
               }
             }));
   }
@@ -129,8 +119,7 @@ class _LandingScreenState extends State<LandingScreen>
                 });
               } else if (index == 1) {
                 setState(() {
-                  tabBody =
-                      LandingScreen(animationController: animationController);
+                  tabBody = bodyScreen();
                 });
               } else if (index == 2) {
                 setState(() {

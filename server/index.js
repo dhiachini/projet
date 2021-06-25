@@ -79,8 +79,14 @@ app.post('/api/stadium/save', upload.single('photo'), async (req, res) => {
                 lat: req.body.lat,
                 lng: req.body.lng
             }
-            req.body.assign(positions)
-            const stadium = new Stadium(req.body);
+            const stadium = new Stadium({
+                name: req.body.name,
+                description: req.body.description,
+                price: req.body.price,
+                positions: positions,
+                rating: 0.0,
+                picPath: req.body.picPath,
+            });
             await stadium.save((err, doc) => {
                 if (err) {
                     console.log(err);

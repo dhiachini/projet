@@ -57,7 +57,7 @@ window.onload = () => {
             formData.append('photo', file);
             formData.append('name', name);
             formData.append('description', description);
-            formData.append('price', price);
+            formData.append('price', double.parse(price));
             formData.append('lat', theMarker._latlng.lat);
             formData.append('lng', theMarker._latlng.lng);
             if (name.length > 6 && description.length > 10 && price != "") {
