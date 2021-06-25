@@ -61,6 +61,7 @@ class _LandingScreenState extends State<LandingScreen>
   Future<List<Stadium>> getStadiums() async {
     var response =
         await http.get(Uri.parse("http://10.0.2.2:3000/api/stadium/all"));
+    print(response.body);
     var listGenerate = jsonDecode(response.body);
     var l = listGenerate['data'];
 
@@ -86,12 +87,15 @@ class _LandingScreenState extends State<LandingScreen>
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Container(
+                  width: double.infinity,
+                  height: double.infinity,
                   child: Scaffold(
                       body: Stack(
                     children: <Widget>[tabBody, bottomBar()],
                   )),
                 );
               } else if (snapshot.hasError) {
+                print(snapshot.error);
               } else {
                 return Container(
                   width: double.infinity,

@@ -15,12 +15,12 @@ import 'package:pfe/ui/screens/profile.dart';
 
 import '../main.dart';
 
-class HotelHomeScreen extends StatefulWidget {
+class LandingScreen extends StatefulWidget {
   @override
-  _HotelHomeScreenState createState() => _HotelHomeScreenState();
+  _LandingScreenState createState() => _LandingScreenState();
 }
 
-class _HotelHomeScreenState extends State<HotelHomeScreen>
+class _LandingScreenState extends State<LandingScreen>
     with TickerProviderStateMixin {
   AnimationController animationController;
   List<HotelListData> hotelList = HotelListData.hotelList;

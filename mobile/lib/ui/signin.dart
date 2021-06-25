@@ -272,8 +272,8 @@ class _SignInScreenState extends State<SignInScreen> {
         final SharedPreferences prefs = await _prefs;
         prefs.setString("userID", res['userData']['userID']);
         prefs.setString("userToken", res['userData']['token']);
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => HotelHomeScreen()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LandingScreen()));
       },
       textColor: Colors.white,
       padding: EdgeInsets.all(0.0),

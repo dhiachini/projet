@@ -13,7 +13,7 @@ const reservationSchema = mongoose.Schema({
         type: String,
         required: [true, "specify the date "]
     }
-}, { collection: 'Stadiums' });
+}, { collection: 'Reservations' });
 
 const Reservation = mongoose.model('Reservation', reservationSchema);
 module.exports = { Reservation }

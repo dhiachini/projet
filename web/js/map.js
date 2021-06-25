@@ -19,68 +19,81 @@ function onMapClick(e) {
 }
 var theMarker = {};
 
-mymap.on('click',function(e){
-  lat = e.latlng.lat;
-  lon = e.latlng.lng;
+mymap.on('click', function (e) {
+    lat = e.latlng.lat;
+    lon = e.latlng.lng;
 
-  console.log("You clicked the mymap at LAT: "+ lat+" and LONG: "+lon );
-      //Clear existing marker, 
+    console.log("You clicked the mymap at LAT: " + lat + " and LONG: " + lon);
+    //Clear existing marker, 
 
-      if (theMarker != undefined) {
-            mymap.removeLayer(theMarker);
-      };
+    if (theMarker != undefined) {
+        mymap.removeLayer(theMarker);
+    };
 
-  //Add a marker to show where you clicked.
-   theMarker = L.marker([lat,lon]).addTo(mymap);  
-   console.log(theMarker);
+    //Add a marker to show where you clicked.
+    theMarker = L.marker([lat, lon]).addTo(mymap);
+    console.log(theMarker);
 });
 
 function toLatLng(x, y, map) {
     var projected = L.point(y, x).divideBy(6378137);
     return map.options.crs.projection.unproject(projected);
- }
- 
- 
- var latLng = toLatLng(6693172.2381477, -264291.81938326, mymap);
+}
 
- window.onload = ( ) => {
-     let save = document.getElementById('save');
-     save.addEventListener('click', async (e) =>  {
-         
-        save.innerHTML = "<div class='loader'>Loading...</div>"
-         e.preventDefault();
-         if(document.getElementById('checkbox').checked){
+
+var latLng = toLatLng(6693172.2381477, -264291.81938326, mymap);
+
+window.onload = () => {
+    let save = document.getElementById('save');
+    save.addEventListener('click', async (e) => {
+        event.preventDefault();
+        save.innerHTML = "<div class='loader'></div> Loading..."
+        if (document.getElementById('checkbox').checked) {
             let name = document.getElementById('sname').value;
             let description = document.getElementById('sdesc').value;
             let price = document.getElementById('sprice').value;
             let file = document.getElementById("spics").files[0];
-            let form = new FormData();
-            form.append('photo', file);
-            form.append('name', name);
-            form.append('description', description);
-            form.append('price', price);
-            for (var p of form) {
-                console.log(p);
-              }
-            if(name.length > 6 && description.length > 10 && price != "" ){
-                await fetch('http://localhost:3000/api/stadium/save',{
+            let formData = new FormData();
+            formData.append('photo', file);
+            formData.append('name', name);
+            formData.append('description', description);
+            formData.append('price', price);
+            formData.append('lat', theMarker._latlng.lat);
+            formData.append('lng', theMarker._latlng.lng);
+            if (name.length > 6 && description.length > 10 && price != "") {
+                await fetch('http://localhost:3000/api/stadium/save', {
                     method: 'POST',
-                    headers: {
-                        'Accept': 'multipart/form-data'
-                    },
-                    body: {data: form}, mode: "cors"
-                })  
-                .then(res => res.json())
-                .then((res) => {
-                    console.log(res);
-                    save.innerHTML = "<i class='fa fa-check'></i> Save"
+                    body: formData
                 })
-                .catch(err =>{ 
-                    console.log(err)
-                    save.innerHTML = "<i class='fa fa-check'></i> Save"
-                })
-        }
-        }
+                    .then(res => res.json())
+                    .then((res) => {
+                        console.log(res);
+                        save.innerHTML = "<i class='fa fa-check'></i> Save"
 
-     });
- }
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        toastr.success("kslqdfjsjgksfjd", "Heeeeeeeeeh")
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        save.innerHTML = "<i class='fa fa-check'></i> Save"
+                    })
+            }
+        }
+    });
+}
