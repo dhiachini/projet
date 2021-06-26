@@ -1,6 +1,7 @@
 //finally in Index.js 
 const app = require('express')();
 require('dotenv').config();
+var express = require('express');
 const port = process.env.PORT;
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -16,6 +17,8 @@ mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopolo
 //     res.header('Access-Control-Allow-Origin', '*');
 //     next();
 // });
+
+app.use('/uploads', express.static(__dirname +'/uploads'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -119,12 +122,3 @@ app.get('/api/stadium/:id', getStadiumDetails);
 app.post('/api/stadium/reserve', ReserveStadium);
 //app.post('/api/event/add', SaveEvent)
 //boutique 
-app.post('/upload', upload.single('photo'), (req, res) => {
-    if (req.file) {
-        res.json(req.file);
-    }
-    else throw 'error';
-
-    // File input field name is simply 'file'
-
-});

@@ -21,8 +21,8 @@ class Stadium {
     picPath = json['picPath'];
     name = json['name'];
     description = json['description'];
-    rating = json['rating'];
-    price = json['price'];
+    rating = json['rating'] == null ? 0.0 : json['rating'].toDouble();
+    price = json['price'] == null ? 0.0 : json['price'].toDouble();
     positions = json['positions'] != null
         ? new Positions.fromJson(json['positions'])
         : null;

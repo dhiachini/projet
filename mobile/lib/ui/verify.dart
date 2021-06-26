@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pfe/ui/splashscreen.dart';
-
-import 'details.dart';
+import 'package:pfe/ui/screens/details.dart';
+import 'package:pfe/ui/screens/splashscreen.dart';
 
 class MainScreen extends StatefulWidget {
   @override

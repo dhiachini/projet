@@ -8,13 +8,11 @@ import 'package:http/http.dart' as http;
 import 'package:pfe/constants/constants.dart';
 import 'package:pfe/models/Stadium.dart';
 import "package:latlong/latlong.dart";
-import 'package:pfe/ui/screens/landing.dart';
 import 'package:pfe/ui/screens/reservation.dart';
 import 'package:pfe/ui/screens/stadiumshop.dart';
-import 'package:pfe/ui/screens/verify.dart';
 import 'package:pfe/ui/screens/profile.dart';
+import 'package:pfe/ui/widgets/bottom_navigation_bar.dart';
 
-import '../navbar.dart';
 import '../tabicon.dart';
 import 'catalogue.dart';
 import 'maps.dart';
@@ -50,17 +48,8 @@ class _DetailsState extends State<Details> with TickerProviderStateMixin {
     var response = await http.get(Uri.parse(url));
     var json = jsonDecode(response.body);
     var js = json['stadium'];
-    stadium = Stadium(
-      description: js['description'],
-      id: js['id'],
-      name: js['name'],
-      picPath: js['picPath'],
-      rating: js['rating'],
-      price: js['price'],
-      positions:
-          Positions(lat: js['positions']['lat'], lng: js['positions']['lng']),
-    );
-
+    stadium = Stadium.fromJson(js);
+    tabBody = screenBody(stadium);
     return stadium;
   }
 
@@ -74,7 +63,6 @@ class _DetailsState extends State<Details> with TickerProviderStateMixin {
     animationController = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
 
-    //tabBody = screenBody(stadium);
     super.initState();
   }
 
@@ -82,12 +70,6 @@ class _DetailsState extends State<Details> with TickerProviderStateMixin {
   void dispose() {
     animationController.dispose();
     super.dispose();
-  }
-
-  updateState() {
-    setState(() {
-      tabBody = screenBody(stadium);
-    });
   }
 
   @override
@@ -143,7 +125,7 @@ class _DetailsState extends State<Details> with TickerProviderStateMixin {
               } else if (index == 3) {
                 setState(() {
                   print("Screen tbadlet a chef $tabBody");
-                  tabBody = ProfileThreePage();
+                  tabBody = Profile();
                 });
               }
             }),
@@ -159,7 +141,8 @@ class _DetailsState extends State<Details> with TickerProviderStateMixin {
                 color: Colors.grey, borderRadius: BorderRadius.circular(20.0)),
             foregroundDecoration: BoxDecoration(color: Colors.black26),
             height: 400,
-            child: Image.network(stadium.picPath, fit: BoxFit.cover)),
+            child: Image.network("http://10.0.2.2:3000/" + stadium.picPath,
+                fit: BoxFit.cover)),
         SingleChildScrollView(
           padding: const EdgeInsets.only(top: 16.0, bottom: 20.0),
           child: Column(
@@ -220,16 +203,16 @@ class _DetailsState extends State<Details> with TickerProviderStateMixin {
                             children: <Widget>[
                               Row(
                                 children: [
-                                  // RatingBarIndicator(
-                                  //   rating: stadium.rating,
-                                  //   itemBuilder: (context, index) => Icon(
-                                  //     Icons.star,
-                                  //     color: Colors.tealAccent[700],
-                                  //   ),
-                                  //   itemCount: 5,
-                                  //   itemSize: 30.0,
-                                  //   direction: Axis.horizontal,
-                                  // ),
+                                  RatingBarIndicator(
+                                    rating: stadium.rating,
+                                    itemBuilder: (context, index) => Icon(
+                                      Icons.star,
+                                      color: Colors.tealAccent[700],
+                                    ),
+                                    itemCount: 5,
+                                    itemSize: 30.0,
+                                    direction: Axis.horizontal,
+                                  ),
                                 ],
                               ),
                               Text.rich(

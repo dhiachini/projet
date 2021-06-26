@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import "package:latlong/latlong.dart";
 import 'package:http/http.dart' as http;
+import 'package:pfe/constants/constants.dart';
 import 'package:pfe/ui/screens/details.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -67,47 +68,36 @@ class _MapsState extends State<Maps> {
 
     _determinePosition();
 
-    print('YAAAAAAAAAAAAAAAAAAAAAAA}');
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _determinePosition(),
+        future: getAllMarkers(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return FlutterMap(
               options: MapOptions(
-                center: LatLng(snapshot.data.latitude, snapshot.data.longitude),
+                center: LatLng(35.821430, 10.634422),
                 zoom: 16.0,
               ),
               nonRotatedLayers: [
                 TileLayerOptions(
                     urlTemplate:
-                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        "https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=${API_KEY}",
                     subdomains: ['a', 'b', 'c']),
-                MarkerLayerOptions(markers: [
-                  Marker(
-                      width: 30.0,
-                      height: 30.0,
-                      point: LatLng(
-                          snapshot.data.latitude, snapshot.data.longitude),
-                      builder: (ctx) => Container(
-                            child: GestureDetector(
-                              child: Image.asset("assets/icons/marker.png"),
-                            ),
-                          )),
-                ]),
+                MarkerLayerOptions(markers: markers),
               ],
             );
           } else {
+            print(snapshot.data);
             return Center(child: CircularProgressIndicator());
           }
         });
   }
 
-  Future<void> getAllMarkers() async {
+  Future<List<Marker>> getAllMarkers() async {
     String url = "http://10.0.2.2:3000/api/stadium/all";
     var response = await http.get(Uri.parse(url));
     var stadiums = json.decode(response.body);
@@ -132,5 +122,6 @@ class _MapsState extends State<Maps> {
                 ),
               )));
     }).toList();
+    return markers;
   }
 }

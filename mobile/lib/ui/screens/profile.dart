@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pfe/constants/theme.dart';
-import 'package:pfe/models/User.dart';
 import 'package:pfe/models/User.dart';
 import 'package:pfe/network/Service.dart';
-import '../fitness.dart';
-import '../tabicon.dart';
 import '../widgets/assets.dart';
 import '../widgets/network_image.dart';
 
-class ProfileThreePage extends StatefulWidget {
-  static final String path = "lib/src/pages/profile/profile3.dart";
-
+class Profile extends StatefulWidget {
+  const Profile({Key key, AnimationController animationController});
   @override
-  _ProfileThreePageState createState() => _ProfileThreePageState();
+  _ProfileState createState() => _ProfileState();
 }
 
-class _ProfileThreePageState extends State<ProfileThreePage> {
+class _ProfileState extends State<Profile> {
   User user;
   @override
   void initState() {
@@ -155,14 +150,17 @@ class _ProfileThreePageState extends State<ProfileThreePage> {
                         ),
                       ],
                     ),
-                  )
+                  ),
+                  SizedBox(
+                    height: 80,
+                  ),
                 ],
               ),
             ),
             AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
-            )
+            ),
           ],
         ),
       ),

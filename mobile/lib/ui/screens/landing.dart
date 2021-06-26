@@ -9,15 +9,13 @@ import 'package:pfe/models/Hotel.dart';
 import 'package:http/http.dart' as http;
 import 'package:pfe/models/Stadium.dart';
 import 'package:pfe/ui/screens/maps.dart';
+import 'package:pfe/ui/screens/profile.dart';
 import 'package:pfe/ui/screens/stadiumshop.dart';
 import 'package:pfe/ui/tabicon.dart';
+import 'package:pfe/ui/widgets/bottom_navigation_bar.dart';
 import 'package:pfe/ui/widgets/calendar.dart';
 import 'package:pfe/ui/widgets/hotelListViewer.dart';
-import 'package:pfe/ui/screens/profile.dart';
 
-import '../fitness.dart';
-import '../landing.dart';
-import '../navbar.dart';
 import 'catalogue.dart';
 
 class LandingScreen extends StatefulWidget {
@@ -55,7 +53,6 @@ class _LandingScreenState extends State<LandingScreen>
   void initState() {
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
-
     super.initState();
   }
 
@@ -65,20 +62,19 @@ class _LandingScreenState extends State<LandingScreen>
           await http.get(Uri.parse("http://10.0.2.2:3000/api/stadium/all"));
       var listGenerate = jsonDecode(response.body);
       var l = listGenerate['data'];
-      print(l.length);
       for (int i = 0; i < l.length; i++) {
-        print(l[i]);
         stadiums.add(Stadium.fromJson(l[i]));
       }
       return stadiums;
-    } catch (err) {
-      print('This is the rr from catch$err');
+    } catch (e) {
+      print('$e');
     }
   }
 
   @override
   void dispose() {
     animationController.dispose();
+    stadiums = null;
     super.dispose();
   }
 
@@ -98,7 +94,9 @@ class _LandingScreenState extends State<LandingScreen>
                   )),
                 );
               } else if (snapshot.hasError) {
-                print(snapshot.error);
+                return Text(snapshot.error);
+              } else {
+                return Text('else');
               }
             }));
   }
@@ -128,8 +126,7 @@ class _LandingScreenState extends State<LandingScreen>
                 });
               } else if (index == 3) {
                 setState(() {
-                  tabBody =
-                      HomeScreen(animationController: animationController);
+                  tabBody = Profile(animationController: animationController);
                 });
               }
             }),
@@ -657,10 +654,8 @@ class _LandingScreenState extends State<LandingScreen>
                         Radius.circular(32.0),
                       ),
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ProfileThreePage()));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Profile()));
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -691,5 +686,29 @@ class _LandingScreenState extends State<LandingScreen>
         ),
       ),
     );
+  }
+}
+
+class ContestTabHeader extends SliverPersistentHeaderDelegate {
+  ContestTabHeader(
+    this.searchUI,
+  );
+  final Widget searchUI;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return searchUI;
+  }
+
+  @override
+  double get maxExtent => 52.0;
+
+  @override
+  double get minExtent => 52.0;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
   }
 }
