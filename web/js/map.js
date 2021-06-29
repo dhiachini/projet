@@ -87,7 +87,7 @@ window.onload = () => {
                             "showMethod": "fadeIn",
                             "hideMethod": "fadeOut"
                         }
-                        toastr.success("kslqdfjsjgksfjd", "Heeeeeeeeeh")
+                        toastr.success("Stadiuum has been added successfuly", "Stadiuum has been added successfuly")
                     })
                     .catch(err => {
                         console.log(err)
