@@ -21,6 +21,10 @@ const stadiumSchema = mongoose.Schema({
         type: String,
         required: [true, "Picture path is needed "]
     },
+    uid: {
+        type: String,
+        required: [true, 'heh']
+    },
     positions:
     {
         lat: { type: Number },

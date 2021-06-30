@@ -60,6 +60,17 @@ exports.getStadiumDetails = async (req, res) => {
     });
 }
 
+exports.getStadiumUid = async (req, res) => {
+    console.log(req.params);
+    const stadiumDetail = await Stadium.find({ uid: req.params.uid });
+    console.log('"""""""""""""""""""""""""""')
+    console.log(stadiumDetail)
+    return res.status(200).json({
+        success: true,
+        stadium: stadiumDetail
+    });
+}
+
 exports.getAllStadiums = async (req, res) => {
     const docs = await Stadium.find({});
     return res.status(200).json({ success: true, data: docs });
