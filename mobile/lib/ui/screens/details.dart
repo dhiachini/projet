@@ -15,6 +15,7 @@ import 'package:pfe/ui/widgets/bottom_navigation_bar.dart';
 
 import '../tabicon.dart';
 import 'catalogue.dart';
+import 'event.dart';
 import 'maps.dart';
 
 // ignore: must_be_immutable
@@ -176,15 +177,31 @@ class _DetailsState extends State<Details> with TickerProviderStateMixin {
                     ),
                   ),
                   Spacer(),
-                  IconButton(
-                    color: Colors.white,
-                    icon: Icon(Icons.add_shopping_cart),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CatalogueScreen()));
-                    },
+                  SizedBox.fromSize(
+                    size: Size(56, 56), // button width and height
+                    child: ClipOval(
+                      child: Material(
+                        color: Colors.red, // button color
+                        child: InkWell(
+                          splashColor: Colors.green, // splash color
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CourseInfoScreen()));
+                          }, // button pressed
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(Icons.emoji_events_outlined),
+                              // icon
+                              Text("Event"),
+                              // text
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   )
                 ],
               ),

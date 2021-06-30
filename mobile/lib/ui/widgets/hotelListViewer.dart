@@ -102,7 +102,7 @@ class HotelListView extends StatelessWidget {
                                               children: <Widget>[
                                                 Text(
                                                   hotelData.description
-                                                          .substring(0, 25) +
+                                                          .substring(0, 20) +
                                                       "...",
                                                   style: TextStyle(
                                                       fontSize: 14,

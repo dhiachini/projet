@@ -16,10 +16,7 @@ import 'package:pfe/ui/widgets/bottom_navigation_bar.dart';
 import 'package:pfe/ui/widgets/calendar.dart';
 import 'package:pfe/ui/widgets/hotelListViewer.dart';
 
-import 'catalogue.dart';
-
 class LandingScreen extends StatefulWidget {
-  const LandingScreen({Key key, AnimationController animationController});
   @override
   _LandingScreenState createState() => _LandingScreenState();
 }
@@ -35,46 +32,31 @@ class _LandingScreenState extends State<LandingScreen>
   DateTime endDate = DateTime.now().add(const Duration(days: 5));
   List<Stadium> stadiums = [];
 
-  Widget tabBody = Container(
-    width: double.infinity,
-    height: double.infinity,
-    child: Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-          Text('Loading...'),
-          SizedBox(height: 5),
-          CircularProgressIndicator(),
-        ])),
-  );
+  Widget tabBody = Container();
 
   @override
   void initState() {
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
+
     super.initState();
   }
 
   Future<List<Stadium>> getStadiums() async {
-    try {
-      var response =
-          await http.get(Uri.parse("http://10.0.2.2:3000/api/stadium/all"));
-      var listGenerate = jsonDecode(response.body);
-      var l = listGenerate['data'];
-      for (int i = 0; i < l.length; i++) {
-        stadiums.add(Stadium.fromJson(l[i]));
-      }
-      return stadiums;
-    } catch (e) {
-      print('$e');
+    var response =
+        await http.get(Uri.parse("http://10.0.2.2:3000/api/stadium/all"));
+    var listGenerate = jsonDecode(response.body);
+    var l = listGenerate['data'];
+
+    for (int i = 0; i < l.length; i++) {
+      stadiums.add(Stadium.fromJson(l[i]));
     }
+    return stadiums;
   }
 
   @override
   void dispose() {
     animationController.dispose();
-    stadiums = null;
     super.dispose();
   }
 
@@ -90,13 +72,98 @@ class _LandingScreenState extends State<LandingScreen>
                 return Container(
                   child: Scaffold(
                       body: Stack(
-                    children: <Widget>[tabBody, bottomBar()],
+                    children: <Widget>[
+                      InkWell(
+                        splashColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        onTap: () {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        },
+                        child: Column(
+                          children: <Widget>[
+                            getAppBarUI(),
+                            Expanded(
+                              child: NestedScrollView(
+                                controller: _scrollController,
+                                headerSliverBuilder: (BuildContext context,
+                                    bool innerBoxIsScrolled) {
+                                  return <Widget>[
+                                    SliverList(
+                                      delegate: SliverChildBuilderDelegate(
+                                          (BuildContext context, int index) {
+                                        return Column(
+                                          children: <Widget>[
+                                            getSearchBarUI(),
+                                          ],
+                                        );
+                                      }, childCount: 1),
+                                    ),
+                                    SliverPersistentHeader(
+                                      pinned: true,
+                                      floating: true,
+                                      delegate: ContestTabHeader(
+                                        getFilterBarUI(),
+                                      ),
+                                    ),
+                                  ];
+                                },
+                                body: Container(
+                                  color: HotelAppTheme.buildLightTheme()
+                                      .backgroundColor,
+                                  child: ListView.builder(
+                                    itemCount: stadiums.length,
+                                    padding: const EdgeInsets.only(top: 8),
+                                    scrollDirection: Axis.vertical,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final int count = stadiums.length > 10
+                                          ? 10
+                                          : stadiums.length;
+                                      final Animation<double> animation =
+                                          Tween<double>(begin: 0.0, end: 1.0)
+                                              .animate(CurvedAnimation(
+                                                  parent: animationController,
+                                                  curve: Interval(
+                                                      (1 / count) * index, 1.0,
+                                                      curve: Curves
+                                                          .fastOutSlowIn)));
+                                      animationController.forward();
+                                      return HotelListView(
+                                        callback: () {},
+                                        hotelData: stadiums[index],
+                                        animation: animation,
+                                        animationController:
+                                            animationController,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
                   )),
                 );
               } else if (snapshot.hasError) {
-                return Text(snapshot.error);
               } else {
-                return Text('else');
+                return Scaffold(
+                    body: Center(
+                        child: Container(
+                            color: Colors.white,
+                            child: Center(
+                                child: Column(children: <Widget>[
+                              CupertinoActivityIndicator(
+                                radius: 40,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 16),
+                                child: Text('Loading...'),
+                              )
+                            ])))));
               }
             }));
   }
@@ -104,102 +171,32 @@ class _LandingScreenState extends State<LandingScreen>
   Widget bottomBar() {
     return Column(
       children: <Widget>[
-        const Expanded(
-          child: SizedBox(),
-        ),
         BottomBarView(
-            tabIconsList: tabIconsList,
-            addClick: () {},
-            changeIndex: (int index) {
-              if (index == 0) {
+          tabIconsList: tabIconsList,
+          addClick: () {},
+          changeIndex: (int index) {
+            if (index == 0 || index == 2) {
+              animationController.reverse().then<dynamic>((data) {
+                if (!mounted) {
+                  return;
+                }
                 setState(() {
-                  tabBody = Maps(animationController: animationController);
+                  tabBody = Maps();
                 });
-              } else if (index == 1) {
+              });
+            } else if (index == 1 || index == 3) {
+              animationController.reverse().then<dynamic>((data) {
+                if (!mounted) {
+                  return;
+                }
                 setState(() {
-                  tabBody = bodyScreen();
+                  tabBody = HomeScreen();
                 });
-              } else if (index == 2) {
-                setState(() {
-                  tabBody =
-                      CatalogueScreen(animationController: animationController);
-                });
-              } else if (index == 3) {
-                setState(() {
-                  tabBody = Profile(animationController: animationController);
-                });
-              }
-            }),
+              });
+            }
+          },
+        ),
       ],
-    );
-  }
-
-  Widget bodyScreen() {
-    return InkWell(
-      splashColor: Colors.transparent,
-      focusColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      hoverColor: Colors.transparent,
-      onTap: () {
-        FocusScope.of(context).requestFocus(FocusNode());
-      },
-      child: Column(
-        children: <Widget>[
-          getAppBarUI(),
-          Expanded(
-            child: NestedScrollView(
-              controller: _scrollController,
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return <Widget>[
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                      return Column(
-                        children: <Widget>[
-                          getSearchBarUI(),
-                        ],
-                      );
-                    }, childCount: 1),
-                  ),
-                  SliverPersistentHeader(
-                    pinned: true,
-                    floating: true,
-                    delegate: ContestTabHeader(
-                      getFilterBarUI(),
-                    ),
-                  ),
-                ];
-              },
-              body: Container(
-                color: HotelAppTheme.buildLightTheme().backgroundColor,
-                child: ListView.builder(
-                  itemCount: stadiums.length,
-                  padding: const EdgeInsets.only(top: 8),
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (BuildContext context, int index) {
-                    final int count =
-                        stadiums.length > 10 ? 10 : stadiums.length;
-                    final Animation<double> animation =
-                        Tween<double>(begin: 0.0, end: 1.0).animate(
-                            CurvedAnimation(
-                                parent: animationController,
-                                curve: Interval((1 / count) * index, 1.0,
-                                    curve: Curves.fastOutSlowIn)));
-                    animationController.forward();
-                    return HotelListView(
-                      callback: () {},
-                      hotelData: stadiums[index],
-                      animation: animation,
-                      animationController: animationController,
-                    );
-                  },
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
     );
   }
 
