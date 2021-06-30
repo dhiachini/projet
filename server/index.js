@@ -29,7 +29,7 @@ app.listen(port, () => {
 });
 const { auth } = require('./middleware/auth')
 const { RegisterUser, LoginUser, LogoutUser, getUserDetails } = require('./controller/AuthController');
-const { GetStadiumLocation, SaveStadium, getAllStadiums, getStadiumDetails, ReserveStadium } = require('./controller/StadiumController');
+const { GetStadiumLocation, SaveStadium, getAllStadiums, getStadiumDetails, ReserveStadium , getStadiumUid } = require('./controller/StadiumController');
 
 //user
 app.post('/api/users/register', RegisterUser);
@@ -66,11 +66,7 @@ const upload = multer({
     fileFilter: fileFilter
 });
 app.post('/api/stadium/save', upload.single('photo'), async (req, res) => {
-    console.log("BODYYYYYYYYYYYY")
-    console.log(req.body)
     var file = __dirname + '/' + req.file.path;
-    console.log("FILEEEEEEEEEEEEE")
-    console.log(req.file)
     fs.rename(req.file.path, file, async function (err) {
         if (err) {
             console.log(err);
@@ -89,6 +85,7 @@ app.post('/api/stadium/save', upload.single('photo'), async (req, res) => {
                 positions: positions,
                 rating: 0.0,
                 picPath: req.body.picPath,
+                uid: req.body.uid
             });
             await stadium.save((err, doc) => {
                 if (err) {
@@ -120,5 +117,7 @@ app.post('/api/stadium/save', upload.single('photo'), async (req, res) => {
 app.get('/api/stadium/all', getAllStadiums);
 app.get('/api/stadium/:id', getStadiumDetails);
 app.post('/api/stadium/reserve', ReserveStadium);
+
+app.get('/api/stadium/user/:uid', getStadiumUid);
 //app.post('/api/event/add', SaveEvent)
 //boutique 
