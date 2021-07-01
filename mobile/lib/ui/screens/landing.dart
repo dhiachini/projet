@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:pfe/constants/theme.dart';
 import 'package:pfe/models/Hotel.dart';
@@ -31,8 +32,17 @@ class _LandingScreenState extends State<LandingScreen>
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now().add(const Duration(days: 5));
   List<Stadium> stadiums = [];
-
+  Position userPos;
   Widget tabBody = Container();
+  Future getLocation() async {
+    if (await Geolocator.isLocationServiceEnabled()) {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      ).timeout(Duration(seconds: 10));
+      print('from fn getLocation() => $position');
+      userPos = position;
+    }
+  }
 
   @override
   void initState() {
@@ -54,6 +64,11 @@ class _LandingScreenState extends State<LandingScreen>
     return stadiums;
   }
 
+  Future<List<Stadium>> getFutures() async {
+    await getLocation();
+    return await getStadiums();
+  }
+
   @override
   void dispose() {
     animationController.dispose();
@@ -64,11 +79,11 @@ class _LandingScreenState extends State<LandingScreen>
   Widget build(BuildContext context) {
     return Theme(
         data: HotelAppTheme.buildLightTheme(),
-        child: FutureBuilder(
-            future: getStadiums(),
-            // ignore: missing_return
+        child: FutureBuilder<List<Stadium>>(
+            future: getFutures(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                print("From futurebuilder : \n ${snapshot.data}");
                 return Container(
                   child: Scaffold(
                       body: Stack(
@@ -131,7 +146,7 @@ class _LandingScreenState extends State<LandingScreen>
                                                           .fastOutSlowIn)));
                                       animationController.forward();
                                       return HotelListView(
-                                        callback: () {},
+                                        userPos: userPos,
                                         hotelData: stadiums[index],
                                         animation: animation,
                                         animationController:
@@ -216,7 +231,7 @@ class _LandingScreenState extends State<LandingScreen>
           Container(
             height: MediaQuery.of(context).size.height - 156 - 50,
             child: FutureBuilder<List<Stadium>>(
-              future: getStadiums(),
+              future: getFutures(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const SizedBox();
@@ -237,6 +252,7 @@ class _LandingScreenState extends State<LandingScreen>
 
                       return HotelListView(
                         callback: () {},
+                        userPos: userPos,
                         hotelData: stadiums[index],
                         animation: animation,
                         animationController: animationController,
@@ -275,124 +291,6 @@ class _LandingScreenState extends State<LandingScreen>
     animationController.forward();
     return Column(
       children: hotelListViews,
-    );
-  }
-
-  Widget getTimeDateUI() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 18, bottom: 16),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Row(
-              children: <Widget>[
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    focusColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4.0),
-                    ),
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      // setState(() {
-                      //   isDatePopupOpen = true;
-                      // });
-                      showDemoDialog(context: context);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8, right: 8, top: 4, bottom: 4),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Choose date',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w100,
-                                fontSize: 16,
-                                color: Colors.grey.withOpacity(0.8)),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            '${DateFormat("dd, MMM").format(startDate)} - ${DateFormat("dd, MMM").format(endDate)}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w100,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: Container(
-              width: 1,
-              height: 42,
-              color: Colors.grey.withOpacity(0.8),
-            ),
-          ),
-          Expanded(
-            child: Row(
-              children: <Widget>[
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    focusColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.grey.withOpacity(0.2),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4.0),
-                    ),
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8, right: 8, top: 4, bottom: 4),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'Reserve random',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w100,
-                                fontSize: 16,
-                                color: Colors.grey.withOpacity(0.8)),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            '1 Room - 2 players',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w100,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -565,28 +463,6 @@ class _LandingScreenState extends State<LandingScreen>
           ),
         )
       ],
-    );
-  }
-
-  void showDemoDialog({BuildContext context}) {
-    showDialog<dynamic>(
-      context: context,
-      builder: (BuildContext context) => CalendarPopupView(
-        barrierDismissible: true,
-        minimumDate: DateTime.now(),
-        //  maximumDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 10),
-        initialEndDate: endDate,
-        initialStartDate: startDate,
-        onApplyClick: (DateTime startData, DateTime endData) {
-          setState(() {
-            if (startData != null && endData != null) {
-              startDate = startData;
-              endDate = endData;
-            }
-          });
-        },
-        onCancelClick: () {},
-      ),
     );
   }
 

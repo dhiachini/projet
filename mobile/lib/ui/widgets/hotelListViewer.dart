@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:pfe/constants/theme.dart';
 import 'package:pfe/models/Stadium.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -9,12 +12,13 @@ import '../screens/details.dart';
 class HotelListView extends StatelessWidget {
   const HotelListView(
       {Key key,
+      this.userPos,
       this.hotelData,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
-
+  final Position userPos;
   final VoidCallback callback;
   final Stadium hotelData;
   final AnimationController animationController;
@@ -22,6 +26,22 @@ class HotelListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double calculateDistance(lat1, lon1, lat2, lon2) {
+      var p = 0.017453292519943295;
+      var c = cos;
+      var a = 0.5 -
+          c((lat2 - lat1) * p) / 2 +
+          c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+      return 12742 * asin(sqrt(a));
+    }
+
+    var distanceToStadium = double.parse(calculateDistance(
+            userPos.latitude,
+            userPos.longitude,
+            hotelData.positions.latitude,
+            hotelData.positions.longitude)
+        .toStringAsFixed(2));
+    print("DISTANCE NAYEK : $distanceToStadium");
     return AnimatedBuilder(
       animation: animationController,
       builder: (BuildContext context, Widget child) {
@@ -39,9 +59,8 @@ class HotelListView extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Details(
-                              idStadium: hotelData.id,
-                            )),
+                        builder: (context) =>
+                            Details(idStadium: hotelData.id, userPos: userPos)),
                   );
                 },
                 child: Container(
@@ -109,27 +128,6 @@ class HotelListView extends StatelessWidget {
                                                       color: Colors.grey
                                                           .withOpacity(0.8)),
                                                 ),
-                                                const SizedBox(
-                                                  width: 4,
-                                                ),
-                                                Icon(
-                                                  FontAwesomeIcons.mapMarkerAlt,
-                                                  size: 12,
-                                                  color: HotelAppTheme
-                                                          .buildLightTheme()
-                                                      .primaryColor,
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    ' km to city',
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.grey
-                                                            .withOpacity(0.8)),
-                                                  ),
-                                                ),
                                               ],
                                             ),
                                             Padding(
@@ -155,6 +153,29 @@ class HotelListView extends StatelessWidget {
                                                         fontSize: 14,
                                                         color: Colors.grey
                                                             .withOpacity(0.8)),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Icon(
+                                                    FontAwesomeIcons
+                                                        .mapMarkerAlt,
+                                                    size: 12,
+                                                    color: HotelAppTheme
+                                                            .buildLightTheme()
+                                                        .primaryColor,
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      '$distanceToStadium km to this stadium',
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          color: Colors.grey
+                                                              .withOpacity(
+                                                                  0.8)),
+                                                    ),
                                                   ),
                                                 ],
                                               ),

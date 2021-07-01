@@ -50,6 +50,15 @@ class _MapsState extends State<Maps> {
         desiredAccuracy: LocationAccuracy.high,
       ).timeout(Duration(seconds: 10));
       print(position);
+      markers.add(
+        Marker(
+            width: 30.0,
+            height: 30.0,
+            point: LatLng(position.latitude, position.longitude),
+            builder: (ctx) => Container(
+                  child: Image.asset("assets/images/marker.png"),
+                )),
+      );
       setState(() {
         _position = position;
       });
@@ -64,7 +73,7 @@ class _MapsState extends State<Maps> {
   @override
   void initState() {
     //getAllMarkers();
-    //getLocation();
+    getLocation();
 
     _determinePosition();
 
@@ -116,6 +125,7 @@ class _MapsState extends State<Maps> {
                       MaterialPageRoute(
                           builder: (context) => Details(
                                 idStadium: stadium['_id'],
+                                userPos: _position,
                               )),
                     );
                   },

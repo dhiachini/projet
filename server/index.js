@@ -28,6 +28,7 @@ app.listen(port, () => {
     console.log(`Server running at here ${port}`);
 });
 const { auth } = require('./middleware/auth')
+const { Event } = require('./models/EventModel')
 const { RegisterUser, LoginUser, LogoutUser, getUserDetails } = require('./controller/AuthController');
 const { GetStadiumLocation, SaveStadium, getAllStadiums, getStadiumDetails, ReserveStadium , getStadiumUid } = require('./controller/StadiumController');
 
@@ -119,5 +120,37 @@ app.get('/api/stadium/:id', getStadiumDetails);
 app.post('/api/stadium/reserve', ReserveStadium);
 
 app.get('/api/stadium/user/:uid', getStadiumUid);
-//app.post('/api/event/add', SaveEvent)
-//boutique 
+
+app.post('/api/event/save', upload.single('photo'), async ( req, res ) => {
+    var file = __dirname + '/' + req.file.path;
+    fs.rename(req.file.path, file, async function (err) {
+        if (err) {
+            console.log(err);
+            res.send(500);
+        }else{
+    console.log(req.body)
+    const event = new Event({
+        price: req.body.price,
+        name: req.body.name,
+        description: req.body.description,
+        uid: req.body.uid,
+        sid: req.body.sid,
+        picPath: req.file.path,
+        rating:0
+    });
+    await event.save((err, doc) => {
+        console.log(doc)
+        if(err)
+            res.status(200).json({
+                success: false,
+                error: err
+            })
+
+        res.status(200).json({
+            success: true,
+            event: doc
+        })
+    })}
+})
+
+}) 

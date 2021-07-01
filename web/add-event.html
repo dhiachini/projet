@@ -52,6 +52,7 @@
 </head>
 
 <body class="fix-header fix-sidebar">
+    <div class="lds-ripple" id="spinner"><div></div><div></div></div>
     <!-- Preloader - style you can find in spinners.css -->
     <div class="preloader">
         <svg class="circular" viewBox="25 25 50 50">
@@ -96,7 +97,10 @@
                                         class="fa fa-tachometer"></i><span class="hide-menu">Dashboard</span></a>
                             </li>
                             <li> <a class="has-arrow  " href="./add-stadium.html" aria-expanded="false"><i
-                                        class="fa fa-tachometer"></i><span class="hide-menu">Add Stadium</span></a>
+                                        class="fa fa-stadium"></i><span class="hide-menu">Add Stadium</span></a>
+                            </li>
+                            <li> <a class="has-arrow  " href="./add-event.html" aria-expanded="false"><i
+                                class="fa fa-event"></i><span class="hide-menu">Add Event</span></a>
                             </li>
 
                         </ul>
@@ -141,10 +145,10 @@
                                 <h3 class="card-title m-t-15">General informations about stadium</h3>
                                 <hr>
                                 <div class="row ">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="ui form">
                                             <div class="field">
-                                                <label>Nom du stade</label>
+                                                <label>Name of event</label>
                                                 <input type="text" name="first-name" id="sname"
                                                     placeholder="Nom du stade">
                                             </div>
@@ -153,7 +157,7 @@
                                                 <textarea id="sdesc" rows="4"></textarea>
                                             </div>
                                             <div class="field">
-                                                <label>Prix par personne</label>
+                                                <label>price per person</label>
                                                 <input type="text" id="sprice" name="last-name"
                                                     placeholder="Prix par personne">
                                             </div>
@@ -162,19 +166,14 @@
                                                 <input type="file" id="spics" name="photo">
                                             </div>
                                             <div class="field">
-                                                <div class="ui checkbox">
-                                                    <input type="checkbox" id="checkbox">
-                                                    <label> I agree to the Terms and Conditions</label>
-                                                </div>
+                                                <label>Stadium</label>
+                                                <select name="stadium" id="stadium">
+                                                </select>
                                             </div>
+                                            
                                         </div>
 
                                     </div>
-                                    <!--/span-->
-                                    <div class="col-md-6">
-                                        <div id="mapid" style="z-index: 9;"></div>
-                                    </div>
-                                    <!--/span-->
                                 </div>
 
                             </div>
@@ -234,7 +233,7 @@
 
     <script src="js/custom.min.js"></script>
 
-    <script src="js/map.js"></script>
+    <script src="js/event.js"></script>
 
 </body>
 
